@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+
+    <tab
+        id="@+id/tab_bookshelf"
+        icon="@drawable/ic_bookshelf"
+        title="@string/bookshelf"/>
+
+    <tab
+        id="@+id/tab_bookstore"
+        icon="@drawable/ic_bookstore"
+        title="@string/bookstore"/>
+
+    <tab
+        id="@+id/tab_search"
+        icon="@drawable/ic_search"
+        title="@string/search"/>
+
+    <tab
+        id="@+id/tab_mine"
+        icon="@drawable/ic_mine"
+        title="@string/mine"/>
+
+</tabs>
