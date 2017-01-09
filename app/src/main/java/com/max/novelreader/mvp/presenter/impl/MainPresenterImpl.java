@@ -1,7 +1,5 @@
 package com.max.novelreader.mvp.presenter.impl;
 
-import android.content.Context;
-
 import com.max.novelreader.mvp.presenter.MainPresenter;
 import com.max.novelreader.mvp.view.MainView;
 
@@ -11,12 +9,11 @@ import com.max.novelreader.mvp.view.MainView;
 
 public class MainPresenterImpl implements MainPresenter {
 
-    private Context mContext;
     private MainView mainView;
     private int currentPage = 0;
 
-    public MainPresenterImpl(Context context) {
-        this.mContext = context;
+    public MainPresenterImpl() {
+
     }
 
     @Override

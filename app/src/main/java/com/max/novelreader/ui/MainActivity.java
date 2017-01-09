@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.max.novelreader.R;
+import com.max.novelreader.di.components.MainComponent;
 import com.max.novelreader.mvp.presenter.MainPresenter;
-import com.max.novelreader.mvp.presenter.impl.MainPresenterImpl;
 import com.max.novelreader.mvp.view.MainView;
 import com.max.novelreader.ui.fragment.BookshelfFragment;
 import com.roughike.bottombar.BottomBar;
@@ -19,11 +19,14 @@ import com.roughike.bottombar.OnTabSelectListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView, BookshelfFragment.OnFragmentInteractionListener {
 
+    @Inject
     MainPresenter mainPresenter;
     @BindView(R.id.bottom_bar)
     BottomBar bottomBar;
@@ -31,13 +34,17 @@ public class MainActivity extends AppCompatActivity implements MainView, Bookshe
     FrameLayout container;
     List<Fragment> fragments;
 
+    MainComponent mainComponent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mainPresenter = new MainPresenterImpl(this);
+//        mainPresenter = new MainPresenterImpl(this);
+//        mainComponent = DaggerMainComponent.b
+
         mainPresenter.attach(this);
         mainPresenter.onCreate();
     }
