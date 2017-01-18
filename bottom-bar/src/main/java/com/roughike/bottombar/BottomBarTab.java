@@ -314,7 +314,7 @@ public class BottomBarTab extends LinearLayout {
         return badge != null;
     }
 
-    int getIndexInTabContainer() {
+    public int getIndexInTabContainer() {
         return indexInContainer;
     }
 

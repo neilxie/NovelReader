@@ -9,8 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:bb_tabXmlResource="@xml/bottombar_tabs"
-        />
+        app:bb_tabXmlResource="@xml/bottombar_tabs" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:elevation="10dp">
+
+        <Button
+            android:id="@+id/btn_bs_del"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="16sp"
+            android:text="删除（0）"
+            android:gravity="center"
+            android:background="@drawable/btn_bs_del_bg"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/container"

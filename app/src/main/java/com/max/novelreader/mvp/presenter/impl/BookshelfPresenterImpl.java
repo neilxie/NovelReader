@@ -5,8 +5,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.max.novelreader.R;
+import com.max.novelreader.bean.Book;
+import com.max.novelreader.event.DelBsEvent;
 import com.max.novelreader.mvp.presenter.BookshelfPresenter;
 import com.max.novelreader.mvp.view.BookshelfFragmentView;
+import com.max.novelreader.observer.Callback;
+import com.max.novelreader.observer.ObserverableUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/5.
@@ -17,10 +28,24 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
     private BookshelfFragmentView bookshelfFragmentView;
     private boolean isMenuEditMode = false;
     private boolean isSelectAll = false;
+    private List<Book> selectedBooks;
+    private List<Book> bookList;
 
     @Override
     public void attach(BookshelfFragmentView view) {
         bookshelfFragmentView = view;
+    }
+
+    @Override
+    public void onCreate() {
+        loadBookShelf();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -29,6 +54,7 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
             bookshelfFragmentView.showEditMode(menu);
         } else {
             bookshelfFragmentView.hideEditMode(menu);
+            unselectAllBooks();
         }
     }
 
@@ -37,12 +63,15 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
         if(item.getItemId() == R.id.menu_edit) {
             isMenuEditMode = true;
             activity.invalidateOptionsMenu();
+            bookshelfFragmentView.showDelBtn();
         } else if(isSelectAll){
             isSelectAll = false;
-            item.setTitle(R.string.menu_select_all);
+            unselectAllBooks();
+            bookshelfFragmentView.showMenuSelectAll();
         } else {
             isSelectAll = true;
-            item.setTitle(R.string.menu_cancel_all);
+            selectAllBooks();
+            bookshelfFragmentView.showMenuUnselectAll();
         }
     }
 
@@ -50,5 +79,86 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
     public void cancelEditMode(Activity activity) {
         isMenuEditMode = false;
         activity.invalidateOptionsMenu();
+        bookshelfFragmentView.hideDelBtn();
+    }
+
+    @Override
+    public void onBookItemClick(Book book) {
+        if(selectedBooks == null) {
+            selectedBooks = new ArrayList<>();
+        }
+
+        if(!selectedBooks.contains(book)) {
+            selectedBooks.add(book);
+
+            int bookCount = bookList != null ? bookList.size() : 0;
+            if(bookCount == selectedBooks.size()) {
+                isSelectAll = true;
+                bookshelfFragmentView.showMenuUnselectAll();
+            }
+        } else {
+            selectedBooks.remove(book);
+            if(isSelectAll){
+                isSelectAll = false;
+                bookshelfFragmentView.showMenuSelectAll();
+            }
+        }
+
+        bookshelfFragmentView.refreshSelectView(selectedBooks.size());
+    }
+
+    private void selectAllBooks() {
+        if(bookList != null) {
+            if(selectedBooks == null) {
+                selectedBooks = new ArrayList<>();
+            }
+
+            selectedBooks.clear();
+            for(Book book : bookList) {
+                book.isSelected = true;
+                selectedBooks.add(book);
+            }
+
+            bookshelfFragmentView.refreshSelectView(selectedBooks.size());
+        }
+    }
+
+    private void unselectAllBooks() {
+        if(selectedBooks != null) {
+            for(Book book : selectedBooks) {
+                book.isSelected = false;
+            }
+
+            selectedBooks.clear();
+
+            bookshelfFragmentView.refreshSelectView(selectedBooks.size());
+        }
+    }
+
+    private void loadBookShelf() {
+        bookshelfFragmentView.showProgress();
+        ObserverableUtil.loadBookShelf(new Callback<List<Book>>() {
+            @Override
+            public void callback(List<Book> books) {
+                if(books != null && !books.isEmpty()) {
+                    bookshelfFragmentView.hideProgress();
+                    bookshelfFragmentView.refreshBookShelf(books);
+                } else {
+                    bookshelfFragmentView.setBookShelfEmpty();
+                }
+
+                bookList = books;
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeleteSelectedBookEvent(DelBsEvent event) {
+        if(bookList != null && !bookList.isEmpty()
+                && selectedBooks != null && !selectedBooks.isEmpty()) {
+            bookList.removeAll(selectedBooks);
+            selectedBooks.clear();
+            bookshelfFragmentView.refreshSelectView(0);
+        }
     }
 }

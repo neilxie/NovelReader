@@ -1,11 +1,12 @@
 package com.max.novelreader.ui.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,12 +14,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.max.novelreader.R;
+import com.max.novelreader.adapter.BookshelfAdapter;
+import com.max.novelreader.bean.Book;
+import com.max.novelreader.di.components.BookshelfComponent;
+import com.max.novelreader.di.components.DaggerBookshelfComponent;
+import com.max.novelreader.di.modules.BookshelfModule;
+import com.max.novelreader.event.HideBsDelBtnEvent;
+import com.max.novelreader.event.ShowBsDelBtnEvent;
+import com.max.novelreader.event.UpdateBsDelNumEvent;
 import com.max.novelreader.mvp.presenter.BookshelfPresenter;
-import com.max.novelreader.mvp.presenter.impl.BookshelfPresenterImpl;
 import com.max.novelreader.mvp.view.BookshelfFragmentView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +58,19 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
     @BindView(R.id.tv_menu_cancel)
     TextView tvMenuCancel;
 
+    @Inject
     BookshelfPresenter presenter;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
+//    @BindView(R.id.btn_bs_del)
+//    Button btnDel;
+
+    BookshelfAdapter bookshelfAdapter;
+    Menu mMenu;
+
+    private BookshelfComponent bookshelfComponent;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,8 +108,17 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
-        presenter = new BookshelfPresenterImpl();
+
+        bookshelfComponent = DaggerBookshelfComponent.builder().bookshelfModule(new BookshelfModule()).build();
+        bookshelfComponent.inject(this);
+
         presenter.attach(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 
     @Override
@@ -99,7 +135,14 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        tvTitleBar.setText("NovelReader");
+        initView();
+
+        presenter.onCreate();
+
+    }
+
+    private void initView() {
+        tvTitleBar.setText(R.string.bookshelf);
         toolbar.setTitle("");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
@@ -109,6 +152,9 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
                 presenter.cancelEditMode(getActivity());
             }
         });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     @Override
@@ -122,19 +168,13 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         presenter.onPrepareMenu(menu);
+        mMenu = menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         presenter.onMenuItemSelect(getActivity(), item);
         return super.onOptionsItemSelected(item);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -161,6 +201,11 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
         MenuItem select = menu.findItem(R.id.menu_select_all);
         edit.setVisible(false);
         select.setVisible(true);
+
+        if (bookshelfAdapter != null) {
+            bookshelfAdapter.setEditMode(true);
+            bookshelfAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -170,6 +215,74 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
         MenuItem select = menu.findItem(R.id.menu_select_all);
         edit.setVisible(true);
         select.setVisible(false);
+
+        if (bookshelfAdapter != null) {
+            bookshelfAdapter.setEditMode(false);
+            bookshelfAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void refreshBookShelf(List<Book> bookList) {
+        if (bookshelfAdapter == null) {
+            bookshelfAdapter = new BookshelfAdapter(getContext(), bookList, presenter);
+            recyclerView.setAdapter(bookshelfAdapter);
+        } else {
+            bookshelfAdapter.setBookList(bookList);
+            bookshelfAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void setBookShelfEmpty() {
+
+    }
+
+    @Override
+    public void showMenuSelectAll() {
+        MenuItem menuItem = mMenu.findItem(R.id.menu_select_all);
+        if (menuItem != null) {
+            menuItem.setTitle(getString(R.string.menu_select_all));
+        }
+    }
+
+    @Override
+    public void showMenuUnselectAll() {
+        MenuItem menuItem = mMenu.findItem(R.id.menu_select_all);
+        if (menuItem != null) {
+            menuItem.setTitle(getString(R.string.menu_cancel_all));
+        }
+    }
+
+    @Override
+    public void showDelBtn() {
+
+        EventBus.getDefault().post(new ShowBsDelBtnEvent());
+    }
+
+    @Override
+    public void hideDelBtn() {
+
+        EventBus.getDefault().post(new HideBsDelBtnEvent());
+
+    }
+
+    @Override
+    public void refreshSelectView(int selectCount) {
+        if(bookshelfAdapter != null) {
+            bookshelfAdapter.notifyDataSetChanged();
+        }
+        EventBus.getDefault().post(new UpdateBsDelNumEvent(selectCount));
     }
 
     /**
@@ -184,6 +297,6 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Bundle bundle);
     }
 }

@@ -12,10 +12,6 @@ public class MainPresenterImpl implements MainPresenter {
     private MainView mainView;
     private int currentPage = 0;
 
-    public MainPresenterImpl() {
-
-    }
-
     @Override
     public void attach(MainView mainView) {
         this.mainView = mainView;
@@ -38,4 +34,5 @@ public class MainPresenterImpl implements MainPresenter {
         mainView.showPage(index);
         currentPage = index;
     }
+
 }

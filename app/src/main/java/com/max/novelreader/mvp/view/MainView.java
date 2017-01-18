@@ -13,4 +13,5 @@ public interface MainView {
     void showPage(int index);
 
     void hidePage(int index);
+
 }

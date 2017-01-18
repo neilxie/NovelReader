@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bookshelf_item_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <ImageView
+        android:id="@+id/iv_book_conver"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_book_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_book_conver"
+        android:layout_toRightOf="@id/iv_book_conver"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_book_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_book_title"
+        android:layout_alignLeft="@id/tv_book_title"
+        android:layout_marginTop="2dp"
+        android:textSize="14sp"
+        android:textColor="@color/gray_b7b5b6"/>
+
+    <TextView
+        android:id="@+id/tv_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_book_author"
+        android:layout_alignLeft="@id/tv_book_title"
+        android:layout_marginTop="2dp"
+        android:textSize="14sp"
+        android:textColor="@color/gray_b7b5b6"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_book_select"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_item_select"/>
+
+    <View
+        android:id="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/iv_book_conver"/>
+
+</RelativeLayout>

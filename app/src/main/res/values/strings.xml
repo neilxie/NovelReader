@@ -9,6 +9,12 @@
     <string name="menu_select_all">全选</string>
     <string name="cancel">取消</string>
     <string name="menu_cancel_all">取消全选</string>
+    <string name="bookshelf_author">作者：%s</string>
+    <string name="book_read_history">阅读至：%s</string>
+    <string name="boolshelf_del_num">删除（%d）</string>
+    <string name="recommand">推荐</string>
+    <string name="hot">热门</string>
+    <string name="category">分类</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
