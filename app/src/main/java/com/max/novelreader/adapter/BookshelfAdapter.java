@@ -96,13 +96,13 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.Book
         public void updateViews(Book book, boolean isEditMode) {
             this.isEditMode = isEditMode;
             currentBook = book;
-            tvBookTitle.setText(book.title);
-            tvBookAuthor.setText(context.getString(R.string.bookshelf_author, book.author));
-            String readChapter = book.catalog.chapterList.get(book.readChapter).title;
+            tvBookTitle.setText(book.getName());
+            tvBookAuthor.setText(context.getString(R.string.bookshelf_author, book.getAuthor()));
+            String readChapter = book.getReadChapterName();
             tvHistory.setText(context.getString(R.string.book_read_history, readChapter));
             ivSelect.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
             setSelectIconColor();
-            Glide.with(context).load(book.imgUrl).centerCrop().into(ivBookConver);
+            Glide.with(context).load(book.getCoverUrl()).centerCrop().into(ivBookConver);
         }
 
         public void hideDivider() {
@@ -114,13 +114,12 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.Book
         }
 
         private void setSelectIconColor() {
-            ivSelect.setColorFilter(currentBook.isSelected ? context.getResources().getColor(R.color.colorAccent) : context.getResources().getColor(R.color.gray_b7b5b6));
+            ivSelect.setColorFilter(bookshelfPresenter.isBookSelected(currentBook) ? context.getResources().getColor(R.color.colorAccent) : context.getResources().getColor(R.color.gray_b7b5b6));
         }
 
         @OnClick(R.id.bookshelf_item_view)
         public void onItemClick(View view) {
             if(isEditMode) {
-                currentBook.isSelected = !currentBook.isSelected;
                 setSelectIconColor();
                 if(bookshelfPresenter != null) {
                     bookshelfPresenter.onBookItemClick(currentBook);

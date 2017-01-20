@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        app:bb_activeTabColor="@color/colorAccent"
+        app:bb_inActiveTabColor="@color/colorPrimary"
         app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
     <FrameLayout
@@ -21,7 +23,7 @@
             android:id="@+id/btn_bs_del"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:textColor="@android:color/holo_red_light"
+            android:textColor="@color/colorAccent"
             android:textSize="16sp"
             android:text="删除（0）"
             android:gravity="center"

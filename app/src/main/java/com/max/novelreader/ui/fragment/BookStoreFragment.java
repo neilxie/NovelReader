@@ -69,8 +69,7 @@ public class BookStoreFragment extends Fragment {
 
     private void initViews() {
         initToolbar();
-        initViewPayger();
-        initTabLayout();
+        initViewPager();
     }
 
     private void initToolbar() {
@@ -79,22 +78,21 @@ public class BookStoreFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
-    private void initTabLayout() {
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.recommand));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.hot));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.category));
-
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void initViewPayger() {
+    private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(BookListFragment.newInstance(TAB_RECOMMAND));
         fragments.add(BookListFragment.newInstance(TAB_HOT));
         fragments.add(CategoryFragment.newInstance());
 
-        BookstoreAdapter adapter = new BookstoreAdapter(getChildFragmentManager(), fragments);
+        List<String> titles = new ArrayList<>();
+        titles.add(getString(R.string.recommand));
+        titles.add(getString(R.string.hot));
+        titles.add(getString(R.string.category));
+
+        BookstoreAdapter adapter = new BookstoreAdapter(getChildFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.setTabsFromPagerAdapter(adapter);
     }
 
 }

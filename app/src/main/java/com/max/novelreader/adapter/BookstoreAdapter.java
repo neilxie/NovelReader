@@ -13,11 +13,13 @@ import java.util.List;
 public class BookstoreAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;
+    private List<String> pageTitleList;
 
-    public BookstoreAdapter(FragmentManager fm, List<Fragment> fragments) {
+    public BookstoreAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
         super(fm);
 
         fragmentList = fragments;
+        pageTitleList = titles;
     }
 
     @Override
@@ -28,5 +30,10 @@ public class BookstoreAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragmentList.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return pageTitleList.get(position);
     }
 }

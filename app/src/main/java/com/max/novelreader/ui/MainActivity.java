@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -39,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements MainView, BookshelfFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements MainView, BookshelfFragment.OnFragmentInteractionListener {
 
     @Inject
     MainPresenter mainPresenter;
@@ -59,13 +58,17 @@ public class MainActivity extends AppCompatActivity implements MainView, Bookshe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mainComponent = DaggerMainComponent.builder().mainModule(new MainModule()).build();
+        mainComponent = DaggerMainComponent.builder().appComponent(getAppComponent()).mainModule(new MainModule()).build();
         mainComponent.inject(this);
 
         mainPresenter.attach(this);
         mainPresenter.onCreate();
 
         EventBus.getDefault().register(this);
+    }
+
+    public MainComponent getMainComponent() {
+        return mainComponent;
     }
 
     @Override
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainView, Bookshe
 
     @Override
     public void initViews() {
+//        bottomBar.setInActiveTabColor();
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {

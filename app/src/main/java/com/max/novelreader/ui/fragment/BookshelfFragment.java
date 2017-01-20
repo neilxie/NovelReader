@@ -20,14 +20,14 @@ import android.widget.TextView;
 import com.max.novelreader.R;
 import com.max.novelreader.adapter.BookshelfAdapter;
 import com.max.novelreader.bean.Book;
+import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.di.components.BookshelfComponent;
-import com.max.novelreader.di.components.DaggerBookshelfComponent;
-import com.max.novelreader.di.modules.BookshelfModule;
 import com.max.novelreader.event.HideBsDelBtnEvent;
 import com.max.novelreader.event.ShowBsDelBtnEvent;
 import com.max.novelreader.event.UpdateBsDelNumEvent;
 import com.max.novelreader.mvp.presenter.BookshelfPresenter;
 import com.max.novelreader.mvp.view.BookshelfFragmentView;
+import com.max.novelreader.ui.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -67,8 +67,12 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
 //    @BindView(R.id.btn_bs_del)
 //    Button btnDel;
 
+    @Inject
+    DaoManager daoManager;
+
     BookshelfAdapter bookshelfAdapter;
     Menu mMenu;
+    boolean isMenuCreated = false;
 
     private BookshelfComponent bookshelfComponent;
 
@@ -109,7 +113,7 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
         }
         setHasOptionsMenu(true);
 
-        bookshelfComponent = DaggerBookshelfComponent.builder().bookshelfModule(new BookshelfModule()).build();
+        bookshelfComponent = ((MainActivity)getActivity()).getMainComponent().bookshelfComponent();
         bookshelfComponent.inject(this);
 
         presenter.attach(this);
@@ -125,9 +129,7 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_bookshelf, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        return inflater.inflate(R.layout.fragment_bookshelf, container, false);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
 
         initView();
 
-        presenter.onCreate();
+        presenter.onCreate(daoManager);
 
     }
 
@@ -159,16 +161,20 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(!isMenuCreated) {
+            menu.clear();
+            inflater.inflate(R.menu.menu, menu);
+            isMenuCreated = true;
+            mMenu = menu;
+        }
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu, menu);
+//        toolbar.inflateMenu(R.menu.menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
         presenter.onPrepareMenu(menu);
-        mMenu = menu;
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -197,8 +203,8 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
     @Override
     public void showEditMode(Menu menu) {
         tvMenuCancel.setVisibility(View.VISIBLE);
-        MenuItem edit = menu.findItem(R.id.menu_edit);
-        MenuItem select = menu.findItem(R.id.menu_select_all);
+        MenuItem edit = mMenu.findItem(R.id.menu_edit);
+        MenuItem select = mMenu.findItem(R.id.menu_select_all);
         edit.setVisible(false);
         select.setVisible(true);
 
@@ -206,13 +212,14 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
             bookshelfAdapter.setEditMode(true);
             bookshelfAdapter.notifyDataSetChanged();
         }
+
     }
 
     @Override
     public void hideEditMode(Menu menu) {
         tvMenuCancel.setVisibility(View.GONE);
-        MenuItem edit = menu.findItem(R.id.menu_edit);
-        MenuItem select = menu.findItem(R.id.menu_select_all);
+        MenuItem edit = mMenu.findItem(R.id.menu_edit);
+        MenuItem select = mMenu.findItem(R.id.menu_select_all);
         edit.setVisible(true);
         select.setVisible(false);
 
@@ -220,6 +227,7 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
             bookshelfAdapter.setEditMode(false);
             bookshelfAdapter.notifyDataSetChanged();
         }
+
     }
 
     @Override
@@ -244,7 +252,7 @@ public class BookshelfFragment extends Fragment implements BookshelfFragmentView
     }
 
     @Override
-    public void setBookShelfEmpty() {
+    public void showBookShelfEmpty() {
 
     }
 
