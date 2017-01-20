@@ -10,14 +10,14 @@ import java.util.List;
  * Created by Administrator on 2017/1/5.
  */
 
-public interface BookshelfFragmentView {
+public interface BookshelfFragmentView extends FragmentView {
 
     void showEditMode(Menu menu);
     void hideEditMode(Menu menu);
     void showProgress();
     void hideProgress();
     void refreshBookShelf(List<Book> bookList);
-    void setBookShelfEmpty();
+    void showBookShelfEmpty();
     void showMenuSelectAll();
     void showMenuUnselectAll();
     void showDelBtn();

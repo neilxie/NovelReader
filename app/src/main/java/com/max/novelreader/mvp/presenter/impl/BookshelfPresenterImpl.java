@@ -6,9 +6,11 @@ import android.view.MenuItem;
 
 import com.max.novelreader.R;
 import com.max.novelreader.bean.Book;
+import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.event.DelBsEvent;
 import com.max.novelreader.mvp.presenter.BookshelfPresenter;
 import com.max.novelreader.mvp.view.BookshelfFragmentView;
+import com.max.novelreader.mvp.view.FragmentView;
 import com.max.novelreader.observer.Callback;
 import com.max.novelreader.observer.ObserverableUtil;
 
@@ -30,17 +32,21 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
     private boolean isSelectAll = false;
     private List<Book> selectedBooks;
     private List<Book> bookList;
+    DaoManager daoManager;
 
     @Override
-    public void attach(BookshelfFragmentView view) {
-        bookshelfFragmentView = view;
+    public void attach(FragmentView view) {
+        bookshelfFragmentView = (BookshelfFragmentView) view;
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(DaoManager daoManager) {
+        this.daoManager = daoManager;
         loadBookShelf();
 
         EventBus.getDefault().register(this);
+
+        assert daoManager == null : "DaoManager object is null";
     }
 
     @Override
@@ -62,8 +68,9 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
     public void onMenuItemSelect(Activity activity, MenuItem item) {
         if(item.getItemId() == R.id.menu_edit) {
             isMenuEditMode = true;
-            activity.invalidateOptionsMenu();
+//            activity.invalidateOptionsMenu();
             bookshelfFragmentView.showDelBtn();
+            bookshelfFragmentView.showEditMode(null);
         } else if(isSelectAll){
             isSelectAll = false;
             unselectAllBooks();
@@ -78,8 +85,12 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
     @Override
     public void cancelEditMode(Activity activity) {
         isMenuEditMode = false;
-        activity.invalidateOptionsMenu();
+//        activity.invalidateOptionsMenu();
         bookshelfFragmentView.hideDelBtn();
+        bookshelfFragmentView.hideEditMode(null);
+        unselectAllBooks();
+        isSelectAll = false;
+        bookshelfFragmentView.showMenuSelectAll();
     }
 
     @Override
@@ -107,6 +118,11 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
         bookshelfFragmentView.refreshSelectView(selectedBooks.size());
     }
 
+    @Override
+    public boolean isBookSelected(Book book) {
+        return selectedBooks != null && selectedBooks.contains(book);
+    }
+
     private void selectAllBooks() {
         if(bookList != null) {
             if(selectedBooks == null) {
@@ -115,7 +131,6 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
 
             selectedBooks.clear();
             for(Book book : bookList) {
-                book.isSelected = true;
                 selectedBooks.add(book);
             }
 
@@ -125,26 +140,21 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
 
     private void unselectAllBooks() {
         if(selectedBooks != null) {
-            for(Book book : selectedBooks) {
-                book.isSelected = false;
-            }
-
             selectedBooks.clear();
-
             bookshelfFragmentView.refreshSelectView(selectedBooks.size());
         }
     }
 
     private void loadBookShelf() {
         bookshelfFragmentView.showProgress();
-        ObserverableUtil.loadBookShelf(new Callback<List<Book>>() {
+        ObserverableUtil.loadBookShelf(daoManager, new Callback<List<Book>>() {
             @Override
             public void callback(List<Book> books) {
+                bookshelfFragmentView.hideProgress();
                 if(books != null && !books.isEmpty()) {
-                    bookshelfFragmentView.hideProgress();
                     bookshelfFragmentView.refreshBookShelf(books);
                 } else {
-                    bookshelfFragmentView.setBookShelfEmpty();
+                    bookshelfFragmentView.showBookShelfEmpty();
                 }
 
                 bookList = books;

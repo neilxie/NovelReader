@@ -1,7 +1,9 @@
 package com.max.novelreader.observer;
 
 import com.max.novelreader.bean.Book;
+import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.db.DaoManager;
+import com.max.novelreader.http.HttpRequest;
 
 import java.util.List;
 
@@ -37,6 +39,25 @@ public class ObserverableUtil {
                         }
                     }
                 });
+    }
+
+    public static void loadRecommandNovels(Callback<List<NovelMainBean>> callback) {
+        HttpRequest.getInstance().loadRecommandNovels(new Subscriber<List<NovelMainBean>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<NovelMainBean> novelMainBeen) {
+
+            }
+        });
     }
 
 }
