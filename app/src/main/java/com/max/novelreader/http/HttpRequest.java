@@ -1,9 +1,12 @@
 package com.max.novelreader.http;
 
 import com.max.novelreader.BuildConfig;
-import com.max.novelreader.bean.NovelMainBean;
+import com.max.novelreader.bean.Category;
+import com.max.novelreader.bean.CategoryLoadResponse;
+import com.max.novelreader.bean.NovelLoadResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -11,8 +14,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Subscriber;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -21,7 +26,7 @@ import rx.schedulers.Schedulers;
 
 public class HttpRequest {
 
-    private static final String BASE_URL = "http://goapi.yphsy.com/";
+    public static final String BASE_URL = "http://goapi.yphsy.com/";
 
     private Retrofit retrofit;
     private HttpMethod httpMethod;
@@ -53,11 +58,25 @@ public class HttpRequest {
         httpMethod = retrofit.create(HttpMethod.class);
     }
 
-    public void loadRecommandNovels(Subscriber<List<NovelMainBean>> subscribe) {
-        httpMethod.loadRecommandNovels()
+    public void loadNovels(Map<String, String> params, Action1<NovelLoadResponse> action1) {
+        httpMethod.loadNovels(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscribe);
+                .subscribe(action1);
+    }
+
+    public void loadCategoryList(Action1<List<Category>> action1) {
+        httpMethod.loadCategoryList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<CategoryLoadResponse, Observable<List<Category>>>() {
+                    @Override
+                    public Observable<List<Category>> call(CategoryLoadResponse categoryLoadResponse) {
+                        return Observable.just(categoryLoadResponse.getData());
+                    }
+
+                })
+                .subscribe(action1);
     }
 
 }

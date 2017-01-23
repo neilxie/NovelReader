@@ -9,12 +9,21 @@
     <string name="menu_select_all">全选</string>
     <string name="cancel">取消</string>
     <string name="menu_cancel_all">取消全选</string>
-    <string name="bookshelf_author">作者：%s</string>
+    <string name="bookshelf_author"><![CDATA[作者：<font color="#d2bf86">%s</font>]]></string>
     <string name="book_read_history">阅读至：%s</string>
     <string name="boolshelf_del_num">删除（%d）</string>
     <string name="recommand">推荐</string>
     <string name="hot">热门</string>
     <string name="category">分类</string>
+    <string name="novel_over">完本</string>
+    <string name="novel_serial">连载</string>
+    <string name="novel_serial_ing">连载中</string>
+    <string name="loading">正在加载</string>
+    <string name="novel_visit_count">点击数：%s</string>
+    <string name="unit_wan">%d万</string>
+    <string name="book_state">状态：%s</string>
+    <string name="open">展开</string>
+    <string name="collapse">收起</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

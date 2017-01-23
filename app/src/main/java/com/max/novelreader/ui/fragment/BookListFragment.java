@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.max.novelreader.R;
+import com.max.novelreader.adapter.BookListAdapter;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.di.components.BookListComponent;
 import com.max.novelreader.di.components.DaggerBookListComponent;
@@ -18,6 +19,7 @@ import com.max.novelreader.di.modules.BookListModule;
 import com.max.novelreader.mvp.presenter.BookListPresenter;
 import com.max.novelreader.mvp.view.BookListFragmentView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,6 +43,9 @@ public class BookListFragment extends Fragment implements BookListFragmentView {
 
     BookListComponent component;
     String type;
+    BookListAdapter adapter;
+    int lastVisibleItem;
+    LinearLayoutManager layoutManager;
 
     public BookListFragment() {
     }
@@ -62,6 +67,8 @@ public class BookListFragment extends Fragment implements BookListFragmentView {
         component.inject(this);
 
         presenter.attach(this);
+
+        presenter.onCreate();
     }
 
     @Nullable
@@ -75,21 +82,55 @@ public class BookListFragment extends Fragment implements BookListFragmentView {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         initView();
-        presenter.onCreate();
+        presenter.onViewCreated();
     }
 
     private void initView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        swipelayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimary));
         swipelayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                presenter.onRefreshList();
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if(newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItem + 1 == adapter.getItemCount()) {
+                    presenter.loadNextPage();
+                }
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            }
+        });
+        adapter = new BookListAdapter(getContext(), presenter, new ArrayList<NovelMainBean>());
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void refreshNovelList(List<NovelMainBean> list) {
+        adapter.setNovelList(list);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showProgress() {
+        swipelayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipelayout.setRefreshing(true);
             }
         });
     }
 
     @Override
-    public void refreshNovelList(List<NovelMainBean> list) {
-
+    public void hideProgress() {
+        swipelayout.setRefreshing(false);
     }
 }

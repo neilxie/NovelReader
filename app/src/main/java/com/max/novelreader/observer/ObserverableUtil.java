@@ -1,11 +1,14 @@
 package com.max.novelreader.observer;
 
 import com.max.novelreader.bean.Book;
+import com.max.novelreader.bean.Category;
+import com.max.novelreader.bean.NovelLoadResponse;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.http.HttpRequest;
 
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -41,21 +44,24 @@ public class ObserverableUtil {
                 });
     }
 
-    public static void loadRecommandNovels(Callback<List<NovelMainBean>> callback) {
-        HttpRequest.getInstance().loadRecommandNovels(new Subscriber<List<NovelMainBean>>() {
+    public static void loadNovels(Map<String, String> params, final Callback<List<NovelMainBean>> callback) {
+        HttpRequest.getInstance().loadNovels(params, new Action1<NovelLoadResponse>() {
             @Override
-            public void onCompleted() {
-
+            public void call(NovelLoadResponse response) {
+                if(callback != null) {
+                    callback.callback(response.getData());
+                }
             }
+        });
+    }
 
+    public static void loadCategories(final Callback<List<Category>> callback) {
+        HttpRequest.getInstance().loadCategoryList(new Action1<List<Category>>() {
             @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(List<NovelMainBean> novelMainBeen) {
-
+            public void call(List<Category> list) {
+                if(callback != null) {
+                    callback.callback(list);
+                }
             }
         });
     }

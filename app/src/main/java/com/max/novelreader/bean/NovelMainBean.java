@@ -1,10 +1,12 @@
 package com.max.novelreader.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/1/20.
  */
 
-public class NovelMainBean {
+public class NovelMainBean implements Serializable {
 
 
     /**
@@ -24,6 +26,8 @@ public class NovelMainBean {
     private DataBean data;
     private SourceBean source;
     private NovelUrlBean url;
+
+    public NovelMainBean(){}
 
     public NovelBean getNovel() {
         return novel;
@@ -80,5 +84,7 @@ public class NovelMainBean {
     public void setUrl(NovelUrlBean url) {
         this.url = url;
     }
+
+
 
 }

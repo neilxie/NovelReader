@@ -5,5 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="gray_b7b5b6">#b7b5b6</color>
     <color name="gray_cac8c9">#cac8c9</color>
-    <color name="green_c6f99f">#c6f99f</color>
+    <color name="gray_e2e1e2">#e2e1e2</color>
+    <color name="green_89b965">#89b965</color>
+    <color name="orange_d2bf86">#d2bf86</color>
+    <color name="blue_13aaef">#13aaef</color>
 </resources>

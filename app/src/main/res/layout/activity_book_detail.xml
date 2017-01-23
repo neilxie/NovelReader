@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/book_details_bg"/>
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_back"/>
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:text="生情绪"
+        android:layout_centerHorizontal="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_back"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_book_cover"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/nocover"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:layout_toRightOf="@id/iv_book_cover"
+                    android:layout_alignTop="@id/iv_book_cover"
+                    android:text="作者"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/tv_author"
+                    android:layout_alignLeft="@id/tv_author"
+                    android:layout_marginTop="5dp"
+                    android:text="状态："/>
+
+                <TextView
+                    android:id="@+id/tv_visit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/tv_status"
+                    android:layout_alignLeft="@id/tv_author"
+                    android:layout_marginTop="5dp"
+                    android:text="点击数："/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/white"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:text="简介"/>
+
+                <TextView
+                    android:id="@+id/tv_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="@color/blue_13aaef"
+                    android:layout_gravity="right"
+                    android:text="展开"
+                    android:gravity="center"
+                    android:drawableRight="@drawable/bookdetail_intro_load_more"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:text="目录"/>
+
+                <include android:id="@+id/v_last" layout="@layout/item_catalog"/>
+                <include android:id="@+id/v_first" layout="@layout/item_catalog"/>
+                <include android:id="@+id/v_second" layout="@layout/item_catalog"/>
+                <include android:id="@+id/v_third" layout="@layout/item_catalog"/>
+                <TextView
+                    android:id="@+id/tv_catalog_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_b7b5b6"
+                    android:textSize="14sp"
+                    android:text="查看更多目录>>"
+                    android:gravity="center"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

@@ -1,10 +1,14 @@
 package com.max.novelreader.bean;
 
+import com.max.novelreader.http.HttpRequest;
+
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/1/20.
  */
 
-public class NovelBean {
+public class NovelBean implements Serializable {
 
 
     /**
@@ -30,7 +34,7 @@ public class NovelBean {
     private String postdate;
     private String isgood;
     private String status;
-    private String isover;
+    private int isover;
     private String cover;
 
     public String getId() {
@@ -105,16 +109,16 @@ public class NovelBean {
         this.status = status;
     }
 
-    public String getIsover() {
-        return isover;
+    public boolean isOver() {
+        return isover == 1;
     }
 
-    public void setIsover(String isover) {
+    public void setIsover(int isover) {
         this.isover = isover;
     }
 
     public String getCover() {
-        return cover;
+        return HttpRequest.BASE_URL + cover;
     }
 
     public void setCover(String cover) {

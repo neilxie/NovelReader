@@ -1,10 +1,12 @@
 package com.max.novelreader.http;
 
-import com.max.novelreader.bean.NovelMainBean;
+import com.max.novelreader.bean.CategoryLoadResponse;
+import com.max.novelreader.bean.NovelLoadResponse;
 
-import java.util.List;
+import java.util.Map;
 
 import retrofit2.http.GET;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -14,7 +16,8 @@ import rx.Observable;
 public interface HttpMethod {
 
     @GET("api/novel/list.html")
-    Observable<List<NovelMainBean>> loadRecommandNovels();
+    Observable<NovelLoadResponse> loadNovels(@QueryMap Map<String, String> params);
 
-
+    @GET("api/novel/category.html")
+    Observable<CategoryLoadResponse> loadCategoryList();
 }

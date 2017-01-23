@@ -11,4 +11,8 @@ import java.util.List;
 public interface BookListFragmentView extends FragmentView {
 
     void refreshNovelList(List<NovelMainBean> list);
+
+    void showProgress();
+
+    void hideProgress();
 }

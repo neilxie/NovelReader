@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Catalog {
 
-
-    public String url;
-    public List<Chapter> chapterList;
+    int total;
+    List<Chapter> chapterList;
 }

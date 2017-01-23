@@ -1,10 +1,12 @@
 package com.max.novelreader.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/1/20.
  */
 
-public class DataBean {
+public class DataBean implements Serializable {
 
 
     /**

@@ -7,5 +7,7 @@ package com.max.novelreader.mvp.presenter;
 public interface BookListPresenter extends FragmentPresenter {
 
     void onCreate();
+    void onViewCreated();
     void onRefreshList();
+    void loadNextPage();
 }

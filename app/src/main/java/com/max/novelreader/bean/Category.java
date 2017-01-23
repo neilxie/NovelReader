@@ -1,10 +1,12 @@
 package com.max.novelreader.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/1/20.
  */
 
-public class Category {
+public class Category implements Serializable {
 
 
     /**
@@ -16,6 +18,8 @@ public class Category {
     private String id;
     private String name;
     private String url;
+    private String key;
+    private String num;
 
     public String getId() {
         return id;
@@ -39,5 +43,21 @@ public class Category {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 }
