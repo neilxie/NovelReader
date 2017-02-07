@@ -27,7 +27,6 @@
         android:textColor="@android:color/white"
         android:gravity="center"
         android:textSize="16sp"
-        android:text="生情绪"
         android:layout_centerHorizontal="true"/>
 
     <ScrollView
@@ -50,7 +49,6 @@
                     android:layout_height="120dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/nocover"
                     android:layout_marginBottom="20dp"/>
 
                 <TextView
@@ -61,7 +59,6 @@
                     android:textColor="@android:color/white"
                     android:layout_toRightOf="@id/iv_book_cover"
                     android:layout_alignTop="@id/iv_book_cover"
-                    android:text="作者"
                     android:layout_marginLeft="10dp"/>
 
                 <TextView
@@ -72,8 +69,7 @@
                     android:textColor="@android:color/white"
                     android:layout_below="@id/tv_author"
                     android:layout_alignLeft="@id/tv_author"
-                    android:layout_marginTop="5dp"
-                    android:text="状态："/>
+                    android:layout_marginTop="5dp"/>
 
                 <TextView
                     android:id="@+id/tv_visit"
@@ -83,8 +79,7 @@
                     android:textColor="@android:color/white"
                     android:layout_below="@id/tv_status"
                     android:layout_alignLeft="@id/tv_author"
-                    android:layout_marginTop="5dp"
-                    android:text="点击数："/>
+                    android:layout_marginTop="5dp"/>
 
             </RelativeLayout>
 
@@ -100,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
-                    android:text="简介"/>
+                    android:text="@string/introduce"/>
 
                 <TextView
                     android:id="@+id/tv_intro"
@@ -118,7 +113,6 @@
                     android:textSize="13sp"
                     android:textColor="@color/blue_13aaef"
                     android:layout_gravity="right"
-                    android:text="展开"
                     android:gravity="center"
                     android:drawableRight="@drawable/bookdetail_intro_load_more"/>
             </LinearLayout>
@@ -136,21 +130,29 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
-                    android:text="目录"/>
+                    android:text="@string/catalog"/>
+
+                <android.support.v4.widget.ContentLoadingProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/progressBarStyleInverse"
+                    android:layout_gravity="center_horizontal"/>
 
                 <include android:id="@+id/v_last" layout="@layout/item_catalog"/>
                 <include android:id="@+id/v_first" layout="@layout/item_catalog"/>
                 <include android:id="@+id/v_second" layout="@layout/item_catalog"/>
                 <include android:id="@+id/v_third" layout="@layout/item_catalog"/>
+
                 <TextView
                     android:id="@+id/tv_catalog_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_b7b5b6"
                     android:textSize="14sp"
-                    android:text="查看更多目录>>"
                     android:gravity="center"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:text="@string/more_catalog"/>
 
             </LinearLayout>
 

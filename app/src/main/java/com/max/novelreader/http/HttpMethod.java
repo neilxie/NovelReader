@@ -1,5 +1,6 @@
 package com.max.novelreader.http;
 
+import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.CategoryLoadResponse;
 import com.max.novelreader.bean.NovelLoadResponse;
 
@@ -20,4 +21,7 @@ public interface HttpMethod {
 
     @GET("api/novel/category.html")
     Observable<CategoryLoadResponse> loadCategoryList();
+
+    @GET("api/novel/dir.html")
+    Observable<Catalog> loadCatalog(@QueryMap Map<String, String> params);
 }

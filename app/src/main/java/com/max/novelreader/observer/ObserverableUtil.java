@@ -1,6 +1,7 @@
 package com.max.novelreader.observer;
 
 import com.max.novelreader.bean.Book;
+import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.Category;
 import com.max.novelreader.bean.NovelLoadResponse;
 import com.max.novelreader.bean.NovelMainBean;
@@ -61,6 +62,17 @@ public class ObserverableUtil {
             public void call(List<Category> list) {
                 if(callback != null) {
                     callback.callback(list);
+                }
+            }
+        });
+    }
+
+    public static void loadCatalog(Map<String, String> params, final Callback<Catalog> callback) {
+        HttpRequest.getInstance().loadCatalog(params, new Action1<Catalog>() {
+            @Override
+            public void call(Catalog catalog) {
+                if(callback != null) {
+                    callback.callback(catalog);
                 }
             }
         });

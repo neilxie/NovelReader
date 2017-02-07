@@ -1,6 +1,7 @@
 package com.max.novelreader.http;
 
 import com.max.novelreader.BuildConfig;
+import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.Category;
 import com.max.novelreader.bean.CategoryLoadResponse;
 import com.max.novelreader.bean.NovelLoadResponse;
@@ -77,6 +78,13 @@ public class HttpRequest {
 
                 })
                 .subscribe(action1);
+    }
+
+    public void loadCatalog(Map<String, String> params, Action1<Catalog> action) {
+        httpMethod.loadCatalog(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action);
     }
 
 }
