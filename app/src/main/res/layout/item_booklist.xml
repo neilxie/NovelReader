@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    android:paddingLeft="10dp">
+    android:paddingLeft="10dp"
+    android:background="@drawable/item_bg">
 
     <ImageView
         android:id="@+id/iv_book_cover"

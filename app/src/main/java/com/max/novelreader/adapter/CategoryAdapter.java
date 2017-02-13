@@ -1,6 +1,7 @@
 package com.max.novelreader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,13 @@ import android.widget.TextView;
 
 import com.max.novelreader.R;
 import com.max.novelreader.bean.Category;
+import com.max.novelreader.ui.CategoryListActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/1/22.
@@ -52,6 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         @BindView(R.id.tv_category_name)
         TextView tvCategoryName;
+        Category category;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
@@ -60,6 +64,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public void bind(Category category) {
             tvCategoryName.setText(category.getName());
+            this.category = category;
+        }
+
+        @OnClick(R.id.v_category_item)
+        public void onItemClick(View view) {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, CategoryListActivity.class);
+            intent.putExtra(CategoryListActivity.EXTRA_CATEGORY, category);
+            context.startActivity(intent);
         }
     }
 }

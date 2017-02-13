@@ -49,8 +49,15 @@ public class ObserverableUtil {
         HttpRequest.getInstance().loadNovels(params, new Action1<NovelLoadResponse>() {
             @Override
             public void call(NovelLoadResponse response) {
-                if(callback != null) {
+                if (callback != null) {
                     callback.callback(response.getData());
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if (callback != null) {
+                    callback.callback(null);
                 }
             }
         });
@@ -64,6 +71,13 @@ public class ObserverableUtil {
                     callback.callback(list);
                 }
             }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if (callback != null) {
+                    callback.callback(null);
+                }
+            }
         });
     }
 
@@ -73,6 +87,13 @@ public class ObserverableUtil {
             public void call(Catalog catalog) {
                 if(callback != null) {
                     callback.callback(catalog);
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if (callback != null) {
+                    callback.callback(null);
                 }
             }
         });

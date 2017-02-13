@@ -59,14 +59,14 @@ public class HttpRequest {
         httpMethod = retrofit.create(HttpMethod.class);
     }
 
-    public void loadNovels(Map<String, String> params, Action1<NovelLoadResponse> action1) {
+    public void loadNovels(Map<String, String> params, Action1<NovelLoadResponse> action1, Action1<Throwable> error) {
         httpMethod.loadNovels(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1);
+                .subscribe(action1, error);
     }
 
-    public void loadCategoryList(Action1<List<Category>> action1) {
+    public void loadCategoryList(Action1<List<Category>> action1, Action1<Throwable> error) {
         httpMethod.loadCategoryList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,14 +77,14 @@ public class HttpRequest {
                     }
 
                 })
-                .subscribe(action1);
+                .subscribe(action1, error);
     }
 
-    public void loadCatalog(Map<String, String> params, Action1<Catalog> action) {
+    public void loadCatalog(Map<String, String> params, Action1<Catalog> action, Action1<Throwable> error) {
         httpMethod.loadCatalog(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action);
+                .subscribe(action, error);
     }
 
 }
