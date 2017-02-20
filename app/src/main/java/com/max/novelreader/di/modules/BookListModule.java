@@ -4,6 +4,8 @@ import com.max.novelreader.di.scopes.PerActivity;
 import com.max.novelreader.mvp.presenter.BookListPresenter;
 import com.max.novelreader.mvp.presenter.impl.BookListPresenterImpl;
 
+import java.util.Map;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,14 +16,14 @@ import dagger.Provides;
 @Module
 public class BookListModule {
 
-    String bookListType;
+    Map<String, String> params;
 
-    public BookListModule(String type) {
-        bookListType = type;
+    public BookListModule(Map<String, String> params) {
+        this.params = params;
     }
 
     @Provides
     public BookListPresenter provideBookListPresenter() {
-        return new BookListPresenterImpl(bookListType);
+        return new BookListPresenterImpl(params);
     }
 }

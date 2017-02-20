@@ -6,10 +6,8 @@ import com.max.novelreader.mvp.view.BookListFragmentView;
 import com.max.novelreader.mvp.view.FragmentView;
 import com.max.novelreader.observer.Callback;
 import com.max.novelreader.observer.ObserverableUtil;
-import com.max.novelreader.ui.fragment.BookStoreFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +19,14 @@ public class BookListPresenterImpl implements BookListPresenter {
 
     private static final String PAGESIZE_LIMIT = "15";
     BookListFragmentView bookListFragmentView;
-    String bookListType;
+    Map<String, String> params;
     int curPage = 1;
     List<NovelMainBean> bookList;
     boolean isRefreshing = false;
     boolean isLoading = false;
 
-    public BookListPresenterImpl(String type) {
-        bookListType = type;
+    public BookListPresenterImpl(Map<String, String> params) {
+        this.params = params;
     }
 
     @Override
@@ -64,12 +62,12 @@ public class BookListPresenterImpl implements BookListPresenter {
 
     private void loadBookList(int page) {
         isLoading = true;
-        Map<String, String> params = new HashMap<>();
+//        Map<String, String> params = new HashMap<>();
         params.put("page", String.valueOf(page));
         params.put("pagesize", PAGESIZE_LIMIT);
-        if(bookListType.equals(BookStoreFragment.TAB_HOT)) {
-            params.put("order", "monthvisit");
-        }
+//        if(bookListType.equals(BookStoreFragment.TAB_HOT)) {
+//            params.put("order", "monthvisit");
+//        }
         ObserverableUtil.loadNovels(params, new Callback<List<NovelMainBean>>() {
             @Override
             public void callback(List<NovelMainBean> list) {

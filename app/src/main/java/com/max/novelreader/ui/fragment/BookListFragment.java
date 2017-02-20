@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.max.novelreader.R;
 import com.max.novelreader.adapter.BookListAdapter;
 import com.max.novelreader.bean.NovelMainBean;
+import com.max.novelreader.bean.SerializableMap;
 import com.max.novelreader.di.components.BookListComponent;
 import com.max.novelreader.di.components.DaggerBookListComponent;
 import com.max.novelreader.di.modules.BookListModule;
@@ -21,6 +22,7 @@ import com.max.novelreader.mvp.view.BookListFragmentView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,18 +44,18 @@ public class BookListFragment extends Fragment implements BookListFragmentView {
     BookListPresenter presenter;
 
     BookListComponent component;
-    String type;
     BookListAdapter adapter;
     int lastVisibleItem;
     LinearLayoutManager layoutManager;
+    Map<String, String> params;
 
     public BookListFragment() {
     }
 
-    public static BookListFragment newInstance(String param) {
+    public static BookListFragment newInstance(SerializableMap params) {
         BookListFragment fragment = new BookListFragment();
         Bundle args = new Bundle();
-        args.putString(PARAM, param);
+        args.putSerializable(PARAM, params);
         fragment.setArguments(args);
 
         return fragment;
@@ -62,8 +64,9 @@ public class BookListFragment extends Fragment implements BookListFragmentView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        type = getArguments().getString(PARAM);
-        component = DaggerBookListComponent.builder().bookListModule(new BookListModule(type)).build();
+        SerializableMap serializableMap = (SerializableMap) getArguments().getSerializable(PARAM);
+        params = serializableMap.getMap();
+        component = DaggerBookListComponent.builder().bookListModule(new BookListModule(params)).build();
         component.inject(this);
 
         presenter.attach(this);

@@ -14,9 +14,12 @@ import android.widget.TextView;
 
 import com.max.novelreader.R;
 import com.max.novelreader.adapter.BookstoreAdapter;
+import com.max.novelreader.bean.SerializableMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,8 +83,16 @@ public class BookStoreFragment extends Fragment {
 
     private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(BookListFragment.newInstance(TAB_RECOMMAND));
-        fragments.add(BookListFragment.newInstance(TAB_HOT));
+        Map<String, String> recommandParams = new HashMap<>();
+        SerializableMap recommandMap = new SerializableMap();
+        recommandMap.setMap(recommandParams);
+        fragments.add(BookListFragment.newInstance(recommandMap));
+
+        Map<String, String> hotParams = new HashMap<>();
+        hotParams.put("order", "monthvisit");
+        SerializableMap hotMap = new SerializableMap();
+        hotMap.setMap(hotParams);
+        fragments.add(BookListFragment.newInstance(hotMap));
         fragments.add(CategoryFragment.newInstance());
 
         List<String> titles = new ArrayList<>();
