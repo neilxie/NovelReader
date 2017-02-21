@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +21,7 @@ import com.max.novelreader.bean.Chapter;
 import com.max.novelreader.bean.NovelBean;
 import com.max.novelreader.bean.NovelLastBean;
 import com.max.novelreader.bean.NovelMainBean;
+import com.max.novelreader.bean.RecommandSameBean;
 import com.max.novelreader.di.components.BookDetailComponent;
 import com.max.novelreader.di.components.DaggerBookDetailComponent;
 import com.max.novelreader.di.modules.BookDetailModule;
@@ -63,22 +68,25 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     BookDetailComponent component;
     @BindView(R.id.progress)
     ContentLoadingProgressBar progress;
-//    @BindView(R.id.tv_chapter_name)
+    //    @BindView(R.id.tv_chapter_name)
     TextView tvLatestChapterName;
-//    @BindView(R.id.tv_chapter_name)
+    //    @BindView(R.id.tv_chapter_name)
     TextView tvFirstChapterName;
-//    @BindView(R.id.tv_chapter_name)
+    //    @BindView(R.id.tv_chapter_name)
     TextView tvSecondChapterName;
-//    @BindView(R.id.tv_chapter_name)
+    //    @BindView(R.id.tv_chapter_name)
     TextView tvThirdChapterName;
-//    @BindView(R.id.rl_catalog_item)
+    //    @BindView(R.id.rl_catalog_item)
     View vLatestChapter;
-//    @BindView(R.id.rl_catalog_item)
+    //    @BindView(R.id.rl_catalog_item)
     View vFirstChapter;
-//    @BindView(R.id.rl_catalog_item)
+    //    @BindView(R.id.rl_catalog_item)
     View vSecondChapter;
-//    @BindView(R.id.rl_catalog_item)
+    //    @BindView(R.id.rl_catalog_item)
     View vThirdChapter;
+    @BindView(R.id.gv_same)
+    GridView gridViewSame;
+    RecommandSameAdapter recommandSameAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -142,6 +150,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
         presenter.onClickCatalogThird(this);
     }
 
+    @OnClick(R.id.ll_change)
+    public void onClickChangeNew(View view) {
+        presenter.onClickChangeNew();
+    }
+
     @Override
     public void showNovel(NovelMainBean bean) {
         NovelBean novelBean = bean.getNovel();
@@ -180,7 +193,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
         tvLatestChapterName.setText(getString(R.string.latest_chapter, bean.getName()));
         tvLatestChapterName.setTextColor(getResources().getColor(R.color.orange_d2bf86));
         List<Chapter> chapters = catalog.getData();
-        if(chapters != null && !chapters.isEmpty()) {
+        if (chapters != null && !chapters.isEmpty()) {
 
             tvFirstChapterName.setText(chapters.get(0).getName());
             tvSecondChapterName.setText(chapters.get(1).getName());
@@ -205,4 +218,70 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
         vSecondChapter.setVisibility(View.VISIBLE);
         vThirdChapter.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void showSameRecommand(List<RecommandSameBean.DataBean> list) {
+        if(recommandSameAdapter == null) {
+            recommandSameAdapter = new RecommandSameAdapter(list);
+            gridViewSame.setAdapter(recommandSameAdapter);
+        } else {
+            recommandSameAdapter.setDataList(list);
+            recommandSameAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class RecommandSameAdapter extends BaseAdapter {
+
+        List<RecommandSameBean.DataBean> dataList;
+
+        public RecommandSameAdapter(List<RecommandSameBean.DataBean> list) {
+            dataList = list;
+        }
+
+        public void setDataList(List<RecommandSameBean.DataBean> list) {
+            dataList = list;
+        }
+
+        @Override
+        public int getCount() {
+            return dataList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return dataList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if(convertView == null) {
+                holder = new ViewHolder();
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_detail_recommand_same_item, null);
+                holder.ivCover = (ImageView) convertView.findViewById(R.id.iv_cover);
+                holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_name);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            RecommandSameBean.DataBean bean = dataList.get(position);
+            Glide.with(convertView.getContext()).load(bean.getNovel().getCover()).into(holder.ivCover);
+            holder.tvTitle.setText(bean.getNovel().getName());
+
+            return convertView;
+        }
+
+        private class ViewHolder {
+            public ImageView ivCover;
+            public TextView tvTitle;
+        }
+    }
+
+
 }

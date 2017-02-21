@@ -5,6 +5,7 @@ import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.Category;
 import com.max.novelreader.bean.NovelLoadResponse;
 import com.max.novelreader.bean.NovelMainBean;
+import com.max.novelreader.bean.RecommandSameBean;
 import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.http.HttpRequest;
 
@@ -93,6 +94,24 @@ public class ObserverableUtil {
             @Override
             public void call(Throwable throwable) {
                 if (callback != null) {
+                    callback.callback(null);
+                }
+            }
+        });
+    }
+
+    public static void loadRecommandSame(Map<String, String> params, final Callback<RecommandSameBean> callback) {
+        HttpRequest.getInstance().loadRecommandSame(params, new Action1<RecommandSameBean>() {
+            @Override
+            public void call(RecommandSameBean bean) {
+                if(callback != null) {
+                    callback.callback(bean);
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if(callback != null) {
                     callback.callback(null);
                 }
             }

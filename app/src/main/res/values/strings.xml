@@ -31,6 +31,8 @@
     <string name="read_book">立即阅读</string>
     <string name="add_bookshelf">加入书架</string>
     <string name="remove_bookshelf">移出书架</string>
+    <string name="same_recommand">同类推荐</string>
+    <string name="change_for_new">换一批</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

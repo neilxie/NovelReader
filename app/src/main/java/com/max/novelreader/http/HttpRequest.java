@@ -5,6 +5,7 @@ import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.Category;
 import com.max.novelreader.bean.CategoryLoadResponse;
 import com.max.novelreader.bean.NovelLoadResponse;
+import com.max.novelreader.bean.RecommandSameBean;
 
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,13 @@ public class HttpRequest {
 
     public void loadCatalog(Map<String, String> params, Action1<Catalog> action, Action1<Throwable> error) {
         httpMethod.loadCatalog(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(action, error);
+    }
+
+    public void loadRecommandSame(Map<String, String> params, Action1<RecommandSameBean> action, Action1<Throwable> error) {
+        httpMethod.loadRecommandSame(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action, error);

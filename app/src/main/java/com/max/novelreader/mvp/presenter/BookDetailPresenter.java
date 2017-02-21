@@ -19,4 +19,5 @@ public interface BookDetailPresenter {
     void onClickCatalogFirst(Context context);
     void onClickCatalogSecond(Context context);
     void onClickCatalogThird(Context context);
+    void onClickChangeNew();
 }
