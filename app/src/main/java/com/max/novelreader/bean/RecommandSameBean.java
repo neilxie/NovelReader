@@ -101,6 +101,10 @@ public class RecommandSameBean {
                 return HttpRequest.BASE_URL + cover;
             }
 
+            public String getCoverOrigin() {
+                return cover;
+            }
+
             public void setCover(String cover) {
                 this.cover = cover;
             }

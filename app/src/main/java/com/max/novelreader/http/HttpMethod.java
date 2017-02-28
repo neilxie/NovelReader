@@ -3,6 +3,7 @@ package com.max.novelreader.http;
 import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.CategoryLoadResponse;
 import com.max.novelreader.bean.NovelLoadResponse;
+import com.max.novelreader.bean.NovelMainResponse;
 import com.max.novelreader.bean.RecommandSameBean;
 
 import java.util.Map;
@@ -28,4 +29,7 @@ public interface HttpMethod {
 
     @GET("api/novel/randhot.html")
     Observable<RecommandSameBean> loadRecommandSame(@QueryMap Map<String, String> params);
+
+    @GET("api/novel/info.html")
+    Observable<NovelMainResponse> loadNovelDetail(@QueryMap Map<String, String> params);
 }

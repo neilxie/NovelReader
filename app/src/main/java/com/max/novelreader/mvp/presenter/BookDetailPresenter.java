@@ -1,8 +1,11 @@
 package com.max.novelreader.mvp.presenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 
 import com.max.novelreader.bean.NovelMainBean;
+import com.max.novelreader.bean.RecommandSameBean;
 import com.max.novelreader.mvp.view.BookDetailView;
 
 /**
@@ -20,4 +23,5 @@ public interface BookDetailPresenter {
     void onClickCatalogSecond(Context context);
     void onClickCatalogThird(Context context);
     void onClickChangeNew();
+    void onClickSameCategoryItem(Activity activity, RecommandSameBean.DataBean bean, View transitionView);
 }

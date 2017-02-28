@@ -1,14 +1,19 @@
 package com.max.novelreader.mvp.presenter.impl;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 
 import com.max.novelreader.bean.Catalog;
+import com.max.novelreader.bean.NovelBean;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.bean.RecommandSameBean;
+import com.max.novelreader.bean.SourceBean;
 import com.max.novelreader.mvp.presenter.BookDetailPresenter;
 import com.max.novelreader.mvp.view.BookDetailView;
 import com.max.novelreader.observer.Callback;
 import com.max.novelreader.observer.ObserverableUtil;
+import com.max.novelreader.ui.BookDetailActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +40,13 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
     public void setBook(NovelMainBean bean) {
         novelMainBean = bean;
         bookDetailView.showNovel(bean);
-        showIntroLess();
         loadCatalog();
-        loadRecommandSame();
+        if(bean.getAuthor() != null) {
+            showIntroLess();
+            loadRecommandSame();
+        } else {
+            loadNovelDetail();
+        }
     }
 
     @Override
@@ -88,6 +97,24 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
         showRecommandList(start, recommandIndex);
     }
 
+    @Override
+    public void onClickSameCategoryItem(Activity activity, RecommandSameBean.DataBean bean, View transitionView) {
+        NovelMainBean mainBean = new NovelMainBean();
+        NovelBean novelBean = new NovelBean();
+        novelBean.setCover(bean.getNovel().getCoverOrigin());
+        novelBean.setId(bean.getNovel().getId());
+        novelBean.setName(bean.getNovel().getName());
+        mainBean.setNovel(novelBean);
+        SourceBean sourceBean = new SourceBean();
+        sourceBean.setSiteid(bean.getSource().getSiteid());
+        mainBean.setSource(sourceBean);
+        BookDetailActivity.showBookDetail(activity, transitionView, mainBean);
+//        Intent intent = new Intent(activity, BookDetailActivity.class);
+//        intent.putExtra(BookDetailActivity.EXTRA_BOOK, mainBean);
+//        activity.startActivity(intent);
+
+    }
+
     private void showIntroLess() {
         String intro = novelMainBean.getNovel().getIntro();
         if(intro.length() > 60) {
@@ -121,17 +148,48 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
             @Override
             public void callback(RecommandSameBean bean) {
                 if(bean != null) {
+                    removeSameNovel(bean);
                     recommandSameBean = bean;
-                    recommandIndex += 4;
-                    showRecommandList(0, recommandIndex);
+                    int start = (int) (Math.random() * (bean.getData().size() - 4));
+                    recommandIndex = start + 4;
+                    showRecommandList(start, recommandIndex);
                 }
             }
         });
     }
 
+    private void removeSameNovel(RecommandSameBean bean) {
+        List<RecommandSameBean.DataBean> list = bean.getData();
+        RecommandSameBean.DataBean novel = null;
+        for(RecommandSameBean.DataBean dataBean : list) {
+            if(dataBean.getNovel().getId().equals(novelMainBean.getNovel().getId())) {
+                novel = dataBean;
+                break;
+            }
+        }
+
+        list.remove(novel);
+    }
+
     private void showRecommandList(int start, int end) {
         List<RecommandSameBean.DataBean> list = recommandSameBean.getData().subList(start, end);
         bookDetailView.showSameRecommand(list);
+    }
+
+    private void loadNovelDetail() {
+        Map<String, String> params = new HashMap<>();
+        params.put("novelid", novelMainBean.getNovel().getId());
+        ObserverableUtil.loadNovelDetail(params, new Callback<NovelMainBean>() {
+            @Override
+            public void callback(NovelMainBean bean) {
+                if(bean != null) {
+                    novelMainBean = bean;
+                    bookDetailView.showNovel(bean);
+                    showIntroLess();
+                    loadRecommandSame();
+                }
+            }
+        });
     }
 
 }

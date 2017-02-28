@@ -1,8 +1,13 @@
 package com.max.novelreader.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -88,6 +93,17 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     GridView gridViewSame;
     RecommandSameAdapter recommandSameAdapter;
 
+    public static void showBookDetail(Activity activity, View transitionView, NovelMainBean bean) {
+        Intent intent = new Intent(activity, BookDetailActivity.class);
+        intent.putExtra(BookDetailActivity.EXTRA_BOOK, bean);
+        if(Build.VERSION.SDK_INT >= 20) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionView, "image");
+            ActivityCompat.startActivity(activity, intent, options.toBundle());
+        } else {
+            activity.startActivity(intent);
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +133,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
 
     @OnClick(R.id.iv_back)
     public void onClickBack(View view) {
-        finish();
+        ActivityCompat.finishAfterTransition(this);
     }
 
     @OnClick(R.id.tv_collapse)
@@ -159,12 +175,15 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     public void showNovel(NovelMainBean bean) {
         NovelBean novelBean = bean.getNovel();
         tvBookName.setText(novelBean.getName());
-        tvAuthor.setText(Html.fromHtml(getString(R.string.bookshelf_author, bean.getAuthor().getName())));
-        String state = novelBean.isOver() ? getString(R.string.novel_over) : getString(R.string.novel_serial_ing);
-        tvStatus.setText(getString(R.string.book_state, state));
-        int count = Integer.parseInt(bean.getData().getAllvisit());
-        String visit = count / 10000 < 10 ? String.valueOf(count) : getString(R.string.unit_wan, count / 10000);
-        tvVisit.setText(getString(R.string.novel_visit_count, visit));
+
+        if(bean.getAuthor() != null) {
+            tvAuthor.setText(Html.fromHtml(getString(R.string.bookshelf_author, bean.getAuthor().getName())));
+            String state = novelBean.isOver() ? getString(R.string.novel_over) : getString(R.string.novel_serial_ing);
+            tvStatus.setText(getString(R.string.book_state, state));
+            int count = Integer.parseInt(bean.getData().getAllvisit());
+            String visit = count / 10000 < 10 ? String.valueOf(count) : getString(R.string.unit_wan, count / 10000);
+            tvVisit.setText(getString(R.string.novel_visit_count, visit));
+        }
 
         Glide.with(this).load(novelBean.getCover()).placeholder(R.drawable.nocover).centerCrop().into(ivBookCover);
         Glide.with(this).load(novelBean.getCover()).bitmapTransform(new BlurTransformation(this, 25), new CenterCrop(this)).crossFade().into(ivBg);
@@ -261,25 +280,39 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if(convertView == null) {
-                holder = new ViewHolder();
                 convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_detail_recommand_same_item, null);
-                holder.ivCover = (ImageView) convertView.findViewById(R.id.iv_cover);
-                holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_name);
+                holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             RecommandSameBean.DataBean bean = dataList.get(position);
-            Glide.with(convertView.getContext()).load(bean.getNovel().getCover()).into(holder.ivCover);
-            holder.tvTitle.setText(bean.getNovel().getName());
-
+            holder.bind(bean);
             return convertView;
         }
 
         private class ViewHolder {
             public ImageView ivCover;
             public TextView tvTitle;
+            RecommandSameBean.DataBean dataBean;
+
+            public ViewHolder(View itemView) {
+                ivCover = (ImageView) itemView.findViewById(R.id.iv_cover);
+                tvTitle = (TextView) itemView.findViewById(R.id.tv_name);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        presenter.onClickSameCategoryItem((Activity) v.getContext(), dataBean, ivCover);
+                    }
+                });
+            }
+
+            public void bind(RecommandSameBean.DataBean bean) {
+                dataBean = bean;
+                Glide.with(ivCover.getContext()).load(bean.getNovel().getCover()).into(ivCover);
+                tvTitle.setText(bean.getNovel().getName());
+            }
         }
     }
 

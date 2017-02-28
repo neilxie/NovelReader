@@ -1,7 +1,7 @@
 package com.max.novelreader.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -127,9 +127,11 @@ public class BookListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @OnClick(R.id.v_book_item)
         public void onItemClick(View v) {
-            Intent intent = new Intent(context, BookDetailActivity.class);
-            intent.putExtra(BookDetailActivity.EXTRA_BOOK, novelMainBean);
-            context.startActivity(intent);
+//            Intent intent = new Intent(context, BookDetailActivity.class);
+//            intent.putExtra(BookDetailActivity.EXTRA_BOOK, novelMainBean);
+//            context.startActivity(intent);
+
+            BookDetailActivity.showBookDetail((Activity) context, ivBookCover, novelMainBean);
         }
     }
 
