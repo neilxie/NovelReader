@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
+import com.max.novelreader.bean.Book;
 import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.NovelBean;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.bean.RecommandSameBean;
 import com.max.novelreader.bean.SourceBean;
+import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.mvp.presenter.BookDetailPresenter;
 import com.max.novelreader.mvp.view.BookDetailView;
 import com.max.novelreader.observer.Callback;
@@ -30,6 +32,9 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
     private boolean isIntroShowAll = false;
     private RecommandSameBean recommandSameBean;
     private int recommandIndex = 0;
+    private DaoManager daoManager;
+    private boolean isBookInShelf;
+    private Book shelfBook;
 
     @Override
     public void attach(BookDetailView view) {
@@ -41,12 +46,18 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
         novelMainBean = bean;
         bookDetailView.showNovel(bean);
         loadCatalog();
+        checkNovelInShelf();
         if(bean.getAuthor() != null) {
             showIntroLess();
             loadRecommandSame();
         } else {
             loadNovelDetail();
         }
+    }
+
+    @Override
+    public void setDaoManager(DaoManager daoManager) {
+        this.daoManager = daoManager;
     }
 
     @Override
@@ -109,10 +120,33 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
         sourceBean.setSiteid(bean.getSource().getSiteid());
         mainBean.setSource(sourceBean);
         BookDetailActivity.showBookDetail(activity, transitionView, mainBean);
-//        Intent intent = new Intent(activity, BookDetailActivity.class);
-//        intent.putExtra(BookDetailActivity.EXTRA_BOOK, mainBean);
-//        activity.startActivity(intent);
+    }
 
+    @Override
+    public void onClickShelf() {
+        if(isBookInShelf) {
+            ObserverableUtil.deleteBookFromShelf(shelfBook.getId(), daoManager);
+        } else {
+            ObserverableUtil.addBookToShelf(novelMainBean, daoManager, new Callback<Book>() {
+                @Override
+                public void callback(Book book) {
+                    isBookInShelf = true;
+                    shelfBook = book;
+                    bookDetailView.showBookInShelfBtn(isBookInShelf);
+                }
+            });
+        }
+    }
+
+    private void checkNovelInShelf() {
+        ObserverableUtil.getBook(novelMainBean.getNovel().getId(), daoManager, new Callback<Book>() {
+            @Override
+            public void callback(Book book) {
+                shelfBook = book;
+                isBookInShelf = book != null;
+                bookDetailView.showBookInShelfBtn(isBookInShelf);
+            }
+        });
     }
 
     private void showIntroLess() {

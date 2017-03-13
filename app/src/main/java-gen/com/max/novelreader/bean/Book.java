@@ -10,21 +10,46 @@ public class Book {
     private String novelId;
     private String name;
     private String coverUrl;
+    private Long postdate;
     private String description;
+    private Integer isover;
     private String lastChapterId;
+    private String lastChapterName;
+    private String lastChapterSiteId;
+    private String lastChapterUrl;
     private String lastUpdateTime;
     private String readChapterId;
+    private String readChapterUrl;
+    private String readChaterSiteId;
     private String readChapterName;
     private Integer readPosition;
     private String readPageTxt;
     private Integer readCount;
     private Integer unreadCount;
+    private Integer allvisit;
     private String siteId;
+    private String siteName;
+    private String siteUrl;
+    private String siteKey;
+    private String orderId;
+    private String siteHost;
     private String downloadUrl;
     private String localPath;
     private Integer downloadStatus;
     private String author;
-    private String category;
+    private String authorUrl;
+    private String categoryId;
+    private String categoryName;
+    private String categoryUrl;
+    private String urlFirst;
+    private String urlInfo;
+    private String urlDir;
+    private String urlDown;
+    private String urlReadEnd;
+    private String urlChapterList;
+    private String urlAddMark;
+    private String urlVote;
+    private String urlComment;
 
     public Book() {
     }
@@ -33,26 +58,51 @@ public class Book {
         this.id = id;
     }
 
-    public Book(Long id, String novelId, String name, String coverUrl, String description, String lastChapterId, String lastUpdateTime, String readChapterId, String readChapterName, Integer readPosition, String readPageTxt, Integer readCount, Integer unreadCount, String siteId, String downloadUrl, String localPath, Integer downloadStatus, String author, String category) {
+    public Book(Long id, String novelId, String name, String coverUrl, Long postdate, String description, Integer isover, String lastChapterId, String lastChapterName, String lastChapterSiteId, String lastChapterUrl, String lastUpdateTime, String readChapterId, String readChapterUrl, String readChaterSiteId, String readChapterName, Integer readPosition, String readPageTxt, Integer readCount, Integer unreadCount, Integer allvisit, String siteId, String siteName, String siteUrl, String siteKey, String orderId, String siteHost, String downloadUrl, String localPath, Integer downloadStatus, String author, String authorUrl, String categoryId, String categoryName, String categoryUrl, String urlFirst, String urlInfo, String urlDir, String urlDown, String urlReadEnd, String urlChapterList, String urlAddMark, String urlVote, String urlComment) {
         this.id = id;
         this.novelId = novelId;
         this.name = name;
         this.coverUrl = coverUrl;
+        this.postdate = postdate;
         this.description = description;
+        this.isover = isover;
         this.lastChapterId = lastChapterId;
+        this.lastChapterName = lastChapterName;
+        this.lastChapterSiteId = lastChapterSiteId;
+        this.lastChapterUrl = lastChapterUrl;
         this.lastUpdateTime = lastUpdateTime;
         this.readChapterId = readChapterId;
+        this.readChapterUrl = readChapterUrl;
+        this.readChaterSiteId = readChaterSiteId;
         this.readChapterName = readChapterName;
         this.readPosition = readPosition;
         this.readPageTxt = readPageTxt;
         this.readCount = readCount;
         this.unreadCount = unreadCount;
+        this.allvisit = allvisit;
         this.siteId = siteId;
+        this.siteName = siteName;
+        this.siteUrl = siteUrl;
+        this.siteKey = siteKey;
+        this.orderId = orderId;
+        this.siteHost = siteHost;
         this.downloadUrl = downloadUrl;
         this.localPath = localPath;
         this.downloadStatus = downloadStatus;
         this.author = author;
-        this.category = category;
+        this.authorUrl = authorUrl;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryUrl = categoryUrl;
+        this.urlFirst = urlFirst;
+        this.urlInfo = urlInfo;
+        this.urlDir = urlDir;
+        this.urlDown = urlDown;
+        this.urlReadEnd = urlReadEnd;
+        this.urlChapterList = urlChapterList;
+        this.urlAddMark = urlAddMark;
+        this.urlVote = urlVote;
+        this.urlComment = urlComment;
     }
 
     public Long getId() {
@@ -87,6 +137,14 @@ public class Book {
         this.coverUrl = coverUrl;
     }
 
+    public Long getPostdate() {
+        return postdate;
+    }
+
+    public void setPostdate(Long postdate) {
+        this.postdate = postdate;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -95,12 +153,44 @@ public class Book {
         this.description = description;
     }
 
+    public Integer getIsover() {
+        return isover;
+    }
+
+    public void setIsover(Integer isover) {
+        this.isover = isover;
+    }
+
     public String getLastChapterId() {
         return lastChapterId;
     }
 
     public void setLastChapterId(String lastChapterId) {
         this.lastChapterId = lastChapterId;
+    }
+
+    public String getLastChapterName() {
+        return lastChapterName;
+    }
+
+    public void setLastChapterName(String lastChapterName) {
+        this.lastChapterName = lastChapterName;
+    }
+
+    public String getLastChapterSiteId() {
+        return lastChapterSiteId;
+    }
+
+    public void setLastChapterSiteId(String lastChapterSiteId) {
+        this.lastChapterSiteId = lastChapterSiteId;
+    }
+
+    public String getLastChapterUrl() {
+        return lastChapterUrl;
+    }
+
+    public void setLastChapterUrl(String lastChapterUrl) {
+        this.lastChapterUrl = lastChapterUrl;
     }
 
     public String getLastUpdateTime() {
@@ -117,6 +207,22 @@ public class Book {
 
     public void setReadChapterId(String readChapterId) {
         this.readChapterId = readChapterId;
+    }
+
+    public String getReadChapterUrl() {
+        return readChapterUrl;
+    }
+
+    public void setReadChapterUrl(String readChapterUrl) {
+        this.readChapterUrl = readChapterUrl;
+    }
+
+    public String getReadChaterSiteId() {
+        return readChaterSiteId;
+    }
+
+    public void setReadChaterSiteId(String readChaterSiteId) {
+        this.readChaterSiteId = readChaterSiteId;
     }
 
     public String getReadChapterName() {
@@ -159,12 +265,60 @@ public class Book {
         this.unreadCount = unreadCount;
     }
 
+    public Integer getAllvisit() {
+        return allvisit;
+    }
+
+    public void setAllvisit(Integer allvisit) {
+        this.allvisit = allvisit;
+    }
+
     public String getSiteId() {
         return siteId;
     }
 
     public void setSiteId(String siteId) {
         this.siteId = siteId;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public String getSiteUrl() {
+        return siteUrl;
+    }
+
+    public void setSiteUrl(String siteUrl) {
+        this.siteUrl = siteUrl;
+    }
+
+    public String getSiteKey() {
+        return siteKey;
+    }
+
+    public void setSiteKey(String siteKey) {
+        this.siteKey = siteKey;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getSiteHost() {
+        return siteHost;
+    }
+
+    public void setSiteHost(String siteHost) {
+        this.siteHost = siteHost;
     }
 
     public String getDownloadUrl() {
@@ -199,12 +353,108 @@ public class Book {
         this.author = author;
     }
 
-    public String getCategory() {
-        return category;
+    public String getAuthorUrl() {
+        return authorUrl;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setAuthorUrl(String authorUrl) {
+        this.authorUrl = authorUrl;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryUrl() {
+        return categoryUrl;
+    }
+
+    public void setCategoryUrl(String categoryUrl) {
+        this.categoryUrl = categoryUrl;
+    }
+
+    public String getUrlFirst() {
+        return urlFirst;
+    }
+
+    public void setUrlFirst(String urlFirst) {
+        this.urlFirst = urlFirst;
+    }
+
+    public String getUrlInfo() {
+        return urlInfo;
+    }
+
+    public void setUrlInfo(String urlInfo) {
+        this.urlInfo = urlInfo;
+    }
+
+    public String getUrlDir() {
+        return urlDir;
+    }
+
+    public void setUrlDir(String urlDir) {
+        this.urlDir = urlDir;
+    }
+
+    public String getUrlDown() {
+        return urlDown;
+    }
+
+    public void setUrlDown(String urlDown) {
+        this.urlDown = urlDown;
+    }
+
+    public String getUrlReadEnd() {
+        return urlReadEnd;
+    }
+
+    public void setUrlReadEnd(String urlReadEnd) {
+        this.urlReadEnd = urlReadEnd;
+    }
+
+    public String getUrlChapterList() {
+        return urlChapterList;
+    }
+
+    public void setUrlChapterList(String urlChapterList) {
+        this.urlChapterList = urlChapterList;
+    }
+
+    public String getUrlAddMark() {
+        return urlAddMark;
+    }
+
+    public void setUrlAddMark(String urlAddMark) {
+        this.urlAddMark = urlAddMark;
+    }
+
+    public String getUrlVote() {
+        return urlVote;
+    }
+
+    public void setUrlVote(String urlVote) {
+        this.urlVote = urlVote;
+    }
+
+    public String getUrlComment() {
+        return urlComment;
+    }
+
+    public void setUrlComment(String urlComment) {
+        this.urlComment = urlComment;
     }
 
 }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.max.novelreader.bean.NovelBean;
 import com.max.novelreader.bean.NovelLastBean;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.bean.RecommandSameBean;
+import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.di.components.BookDetailComponent;
 import com.max.novelreader.di.components.DaggerBookDetailComponent;
 import com.max.novelreader.di.modules.BookDetailModule;
@@ -66,9 +68,14 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     TextView tvIntro;
     @BindView(R.id.tv_collapse)
     TextView tvCollapse;
+    @BindView(R.id.btn_bookshelf)
+    Button btnAddBookshelf;
 
     @Inject
     BookDetailPresenter presenter;
+
+    @Inject
+    DaoManager daoManager;
 
     BookDetailComponent component;
     @BindView(R.id.progress)
@@ -111,10 +118,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
         ButterKnife.bind(this);
         initView();
 
-        component = DaggerBookDetailComponent.builder().bookDetailModule(new BookDetailModule()).build();
+        component = DaggerBookDetailComponent.builder().appComponent(getAppComponent()).bookDetailModule(new BookDetailModule()).build();
         component.inject(this);
 
         presenter.attach(this);
+        presenter.setDaoManager(daoManager);
         NovelMainBean bean = (NovelMainBean) getIntent().getSerializableExtra(EXTRA_BOOK);
         presenter.setBook(bean);
     }
@@ -169,6 +177,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
     @OnClick(R.id.ll_change)
     public void onClickChangeNew(View view) {
         presenter.onClickChangeNew();
+    }
+
+    @OnClick(R.id.btn_bookshelf)
+    public void onClickBookShelfBtn(View view) {
+        presenter.onClickShelf();
     }
 
     @Override
@@ -247,6 +260,11 @@ public class BookDetailActivity extends BaseActivity implements BookDetailView {
             recommandSameAdapter.setDataList(list);
             recommandSameAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void showBookInShelfBtn(boolean isInShelf) {
+        btnAddBookshelf.setText(isInShelf ? R.string.remove_bookshelf : R.string.add_bookshelf);
     }
 
     private class RecommandSameAdapter extends BaseAdapter {

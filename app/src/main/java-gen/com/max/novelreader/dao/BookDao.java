@@ -27,21 +27,46 @@ public class BookDao extends AbstractDao<Book, Long> {
         public final static Property NovelId = new Property(1, String.class, "novelId", false, "NOVEL_ID");
         public final static Property Name = new Property(2, String.class, "name", false, "NAME");
         public final static Property CoverUrl = new Property(3, String.class, "coverUrl", false, "COVER_URL");
-        public final static Property Description = new Property(4, String.class, "description", false, "DESCRIPTION");
-        public final static Property LastChapterId = new Property(5, String.class, "lastChapterId", false, "LAST_CHAPTER_ID");
-        public final static Property LastUpdateTime = new Property(6, String.class, "lastUpdateTime", false, "LAST_UPDATE_TIME");
-        public final static Property ReadChapterId = new Property(7, String.class, "readChapterId", false, "READ_CHAPTER_ID");
-        public final static Property ReadChapterName = new Property(8, String.class, "readChapterName", false, "READ_CHAPTER_NAME");
-        public final static Property ReadPosition = new Property(9, Integer.class, "readPosition", false, "READ_POSITION");
-        public final static Property ReadPageTxt = new Property(10, String.class, "readPageTxt", false, "READ_PAGE_TXT");
-        public final static Property ReadCount = new Property(11, Integer.class, "readCount", false, "READ_COUNT");
-        public final static Property UnreadCount = new Property(12, Integer.class, "unreadCount", false, "UNREAD_COUNT");
-        public final static Property SiteId = new Property(13, String.class, "siteId", false, "SITE_ID");
-        public final static Property DownloadUrl = new Property(14, String.class, "downloadUrl", false, "DOWNLOAD_URL");
-        public final static Property LocalPath = new Property(15, String.class, "localPath", false, "LOCAL_PATH");
-        public final static Property DownloadStatus = new Property(16, Integer.class, "downloadStatus", false, "DOWNLOAD_STATUS");
-        public final static Property Author = new Property(17, String.class, "author", false, "AUTHOR");
-        public final static Property Category = new Property(18, String.class, "category", false, "CATEGORY");
+        public final static Property Postdate = new Property(4, Long.class, "postdate", false, "POSTDATE");
+        public final static Property Description = new Property(5, String.class, "description", false, "DESCRIPTION");
+        public final static Property Isover = new Property(6, Integer.class, "isover", false, "ISOVER");
+        public final static Property LastChapterId = new Property(7, String.class, "lastChapterId", false, "LAST_CHAPTER_ID");
+        public final static Property LastChapterName = new Property(8, String.class, "lastChapterName", false, "LAST_CHAPTER_NAME");
+        public final static Property LastChapterSiteId = new Property(9, String.class, "lastChapterSiteId", false, "LAST_CHAPTER_SITE_ID");
+        public final static Property LastChapterUrl = new Property(10, String.class, "lastChapterUrl", false, "LAST_CHAPTER_URL");
+        public final static Property LastUpdateTime = new Property(11, String.class, "lastUpdateTime", false, "LAST_UPDATE_TIME");
+        public final static Property ReadChapterId = new Property(12, String.class, "readChapterId", false, "READ_CHAPTER_ID");
+        public final static Property ReadChapterUrl = new Property(13, String.class, "readChapterUrl", false, "READ_CHAPTER_URL");
+        public final static Property ReadChaterSiteId = new Property(14, String.class, "readChaterSiteId", false, "READ_CHATER_SITE_ID");
+        public final static Property ReadChapterName = new Property(15, String.class, "readChapterName", false, "READ_CHAPTER_NAME");
+        public final static Property ReadPosition = new Property(16, Integer.class, "readPosition", false, "READ_POSITION");
+        public final static Property ReadPageTxt = new Property(17, String.class, "readPageTxt", false, "READ_PAGE_TXT");
+        public final static Property ReadCount = new Property(18, Integer.class, "readCount", false, "READ_COUNT");
+        public final static Property UnreadCount = new Property(19, Integer.class, "unreadCount", false, "UNREAD_COUNT");
+        public final static Property Allvisit = new Property(20, Integer.class, "allvisit", false, "ALLVISIT");
+        public final static Property SiteId = new Property(21, String.class, "siteId", false, "SITE_ID");
+        public final static Property SiteName = new Property(22, String.class, "siteName", false, "SITE_NAME");
+        public final static Property SiteUrl = new Property(23, String.class, "siteUrl", false, "SITE_URL");
+        public final static Property SiteKey = new Property(24, String.class, "siteKey", false, "SITE_KEY");
+        public final static Property OrderId = new Property(25, String.class, "orderId", false, "ORDER_ID");
+        public final static Property SiteHost = new Property(26, String.class, "siteHost", false, "SITE_HOST");
+        public final static Property DownloadUrl = new Property(27, String.class, "downloadUrl", false, "DOWNLOAD_URL");
+        public final static Property LocalPath = new Property(28, String.class, "localPath", false, "LOCAL_PATH");
+        public final static Property DownloadStatus = new Property(29, Integer.class, "downloadStatus", false, "DOWNLOAD_STATUS");
+        public final static Property Author = new Property(30, String.class, "author", false, "AUTHOR");
+        public final static Property AuthorUrl = new Property(31, String.class, "authorUrl", false, "AUTHOR_URL");
+        public final static Property CategoryId = new Property(32, String.class, "categoryId", false, "CATEGORY_ID");
+        public final static Property CategoryName = new Property(33, String.class, "categoryName", false, "CATEGORY_NAME");
+        public final static Property CategoryUrl = new Property(34, String.class, "categoryUrl", false, "CATEGORY_URL");
+        public final static Property UrlFirst = new Property(35, String.class, "urlFirst", false, "URL_FIRST");
+        public final static Property UrlInfo = new Property(36, String.class, "urlInfo", false, "URL_INFO");
+        public final static Property UrlDir = new Property(37, String.class, "urlDir", false, "URL_DIR");
+        public final static Property UrlDown = new Property(38, String.class, "urlDown", false, "URL_DOWN");
+        public final static Property UrlReadEnd = new Property(39, String.class, "urlReadEnd", false, "URL_READ_END");
+        public final static Property UrlChapterList = new Property(40, String.class, "urlChapterList", false, "URL_CHAPTER_LIST");
+        public final static Property UrlAddMark = new Property(41, String.class, "urlAddMark", false, "URL_ADD_MARK");
+        public final static Property UrlVote = new Property(42, String.class, "urlVote", false, "URL_VOTE");
+        public final static Property UrlComment = new Property(43, String.class, "urlComment", false, "URL_COMMENT");
     };
 
 
@@ -61,21 +86,46 @@ public class BookDao extends AbstractDao<Book, Long> {
                 "\"NOVEL_ID\" TEXT," + // 1: novelId
                 "\"NAME\" TEXT," + // 2: name
                 "\"COVER_URL\" TEXT," + // 3: coverUrl
-                "\"DESCRIPTION\" TEXT," + // 4: description
-                "\"LAST_CHAPTER_ID\" TEXT," + // 5: lastChapterId
-                "\"LAST_UPDATE_TIME\" TEXT," + // 6: lastUpdateTime
-                "\"READ_CHAPTER_ID\" TEXT," + // 7: readChapterId
-                "\"READ_CHAPTER_NAME\" TEXT," + // 8: readChapterName
-                "\"READ_POSITION\" INTEGER," + // 9: readPosition
-                "\"READ_PAGE_TXT\" TEXT," + // 10: readPageTxt
-                "\"READ_COUNT\" INTEGER," + // 11: readCount
-                "\"UNREAD_COUNT\" INTEGER," + // 12: unreadCount
-                "\"SITE_ID\" TEXT," + // 13: siteId
-                "\"DOWNLOAD_URL\" TEXT," + // 14: downloadUrl
-                "\"LOCAL_PATH\" TEXT," + // 15: localPath
-                "\"DOWNLOAD_STATUS\" INTEGER," + // 16: downloadStatus
-                "\"AUTHOR\" TEXT," + // 17: author
-                "\"CATEGORY\" TEXT);"); // 18: category
+                "\"POSTDATE\" INTEGER," + // 4: postdate
+                "\"DESCRIPTION\" TEXT," + // 5: description
+                "\"ISOVER\" INTEGER," + // 6: isover
+                "\"LAST_CHAPTER_ID\" TEXT," + // 7: lastChapterId
+                "\"LAST_CHAPTER_NAME\" TEXT," + // 8: lastChapterName
+                "\"LAST_CHAPTER_SITE_ID\" TEXT," + // 9: lastChapterSiteId
+                "\"LAST_CHAPTER_URL\" TEXT," + // 10: lastChapterUrl
+                "\"LAST_UPDATE_TIME\" TEXT," + // 11: lastUpdateTime
+                "\"READ_CHAPTER_ID\" TEXT," + // 12: readChapterId
+                "\"READ_CHAPTER_URL\" TEXT," + // 13: readChapterUrl
+                "\"READ_CHATER_SITE_ID\" TEXT," + // 14: readChaterSiteId
+                "\"READ_CHAPTER_NAME\" TEXT," + // 15: readChapterName
+                "\"READ_POSITION\" INTEGER," + // 16: readPosition
+                "\"READ_PAGE_TXT\" TEXT," + // 17: readPageTxt
+                "\"READ_COUNT\" INTEGER," + // 18: readCount
+                "\"UNREAD_COUNT\" INTEGER," + // 19: unreadCount
+                "\"ALLVISIT\" INTEGER," + // 20: allvisit
+                "\"SITE_ID\" TEXT," + // 21: siteId
+                "\"SITE_NAME\" TEXT," + // 22: siteName
+                "\"SITE_URL\" TEXT," + // 23: siteUrl
+                "\"SITE_KEY\" TEXT," + // 24: siteKey
+                "\"ORDER_ID\" TEXT," + // 25: orderId
+                "\"SITE_HOST\" TEXT," + // 26: siteHost
+                "\"DOWNLOAD_URL\" TEXT," + // 27: downloadUrl
+                "\"LOCAL_PATH\" TEXT," + // 28: localPath
+                "\"DOWNLOAD_STATUS\" INTEGER," + // 29: downloadStatus
+                "\"AUTHOR\" TEXT," + // 30: author
+                "\"AUTHOR_URL\" TEXT," + // 31: authorUrl
+                "\"CATEGORY_ID\" TEXT," + // 32: categoryId
+                "\"CATEGORY_NAME\" TEXT," + // 33: categoryName
+                "\"CATEGORY_URL\" TEXT," + // 34: categoryUrl
+                "\"URL_FIRST\" TEXT," + // 35: urlFirst
+                "\"URL_INFO\" TEXT," + // 36: urlInfo
+                "\"URL_DIR\" TEXT," + // 37: urlDir
+                "\"URL_DOWN\" TEXT," + // 38: urlDown
+                "\"URL_READ_END\" TEXT," + // 39: urlReadEnd
+                "\"URL_CHAPTER_LIST\" TEXT," + // 40: urlChapterList
+                "\"URL_ADD_MARK\" TEXT," + // 41: urlAddMark
+                "\"URL_VOTE\" TEXT," + // 42: urlVote
+                "\"URL_COMMENT\" TEXT);"); // 43: urlComment
     }
 
     /** Drops the underlying database table. */
@@ -109,79 +159,204 @@ public class BookDao extends AbstractDao<Book, Long> {
             stmt.bindString(4, coverUrl);
         }
  
+        Long postdate = entity.getPostdate();
+        if (postdate != null) {
+            stmt.bindLong(5, postdate);
+        }
+ 
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(5, description);
+            stmt.bindString(6, description);
+        }
+ 
+        Integer isover = entity.getIsover();
+        if (isover != null) {
+            stmt.bindLong(7, isover);
         }
  
         String lastChapterId = entity.getLastChapterId();
         if (lastChapterId != null) {
-            stmt.bindString(6, lastChapterId);
+            stmt.bindString(8, lastChapterId);
+        }
+ 
+        String lastChapterName = entity.getLastChapterName();
+        if (lastChapterName != null) {
+            stmt.bindString(9, lastChapterName);
+        }
+ 
+        String lastChapterSiteId = entity.getLastChapterSiteId();
+        if (lastChapterSiteId != null) {
+            stmt.bindString(10, lastChapterSiteId);
+        }
+ 
+        String lastChapterUrl = entity.getLastChapterUrl();
+        if (lastChapterUrl != null) {
+            stmt.bindString(11, lastChapterUrl);
         }
  
         String lastUpdateTime = entity.getLastUpdateTime();
         if (lastUpdateTime != null) {
-            stmt.bindString(7, lastUpdateTime);
+            stmt.bindString(12, lastUpdateTime);
         }
  
         String readChapterId = entity.getReadChapterId();
         if (readChapterId != null) {
-            stmt.bindString(8, readChapterId);
+            stmt.bindString(13, readChapterId);
+        }
+ 
+        String readChapterUrl = entity.getReadChapterUrl();
+        if (readChapterUrl != null) {
+            stmt.bindString(14, readChapterUrl);
+        }
+ 
+        String readChaterSiteId = entity.getReadChaterSiteId();
+        if (readChaterSiteId != null) {
+            stmt.bindString(15, readChaterSiteId);
         }
  
         String readChapterName = entity.getReadChapterName();
         if (readChapterName != null) {
-            stmt.bindString(9, readChapterName);
+            stmt.bindString(16, readChapterName);
         }
  
         Integer readPosition = entity.getReadPosition();
         if (readPosition != null) {
-            stmt.bindLong(10, readPosition);
+            stmt.bindLong(17, readPosition);
         }
  
         String readPageTxt = entity.getReadPageTxt();
         if (readPageTxt != null) {
-            stmt.bindString(11, readPageTxt);
+            stmt.bindString(18, readPageTxt);
         }
  
         Integer readCount = entity.getReadCount();
         if (readCount != null) {
-            stmt.bindLong(12, readCount);
+            stmt.bindLong(19, readCount);
         }
  
         Integer unreadCount = entity.getUnreadCount();
         if (unreadCount != null) {
-            stmt.bindLong(13, unreadCount);
+            stmt.bindLong(20, unreadCount);
+        }
+ 
+        Integer allvisit = entity.getAllvisit();
+        if (allvisit != null) {
+            stmt.bindLong(21, allvisit);
         }
  
         String siteId = entity.getSiteId();
         if (siteId != null) {
-            stmt.bindString(14, siteId);
+            stmt.bindString(22, siteId);
+        }
+ 
+        String siteName = entity.getSiteName();
+        if (siteName != null) {
+            stmt.bindString(23, siteName);
+        }
+ 
+        String siteUrl = entity.getSiteUrl();
+        if (siteUrl != null) {
+            stmt.bindString(24, siteUrl);
+        }
+ 
+        String siteKey = entity.getSiteKey();
+        if (siteKey != null) {
+            stmt.bindString(25, siteKey);
+        }
+ 
+        String orderId = entity.getOrderId();
+        if (orderId != null) {
+            stmt.bindString(26, orderId);
+        }
+ 
+        String siteHost = entity.getSiteHost();
+        if (siteHost != null) {
+            stmt.bindString(27, siteHost);
         }
  
         String downloadUrl = entity.getDownloadUrl();
         if (downloadUrl != null) {
-            stmt.bindString(15, downloadUrl);
+            stmt.bindString(28, downloadUrl);
         }
  
         String localPath = entity.getLocalPath();
         if (localPath != null) {
-            stmt.bindString(16, localPath);
+            stmt.bindString(29, localPath);
         }
  
         Integer downloadStatus = entity.getDownloadStatus();
         if (downloadStatus != null) {
-            stmt.bindLong(17, downloadStatus);
+            stmt.bindLong(30, downloadStatus);
         }
  
         String author = entity.getAuthor();
         if (author != null) {
-            stmt.bindString(18, author);
+            stmt.bindString(31, author);
         }
  
-        String category = entity.getCategory();
-        if (category != null) {
-            stmt.bindString(19, category);
+        String authorUrl = entity.getAuthorUrl();
+        if (authorUrl != null) {
+            stmt.bindString(32, authorUrl);
+        }
+ 
+        String categoryId = entity.getCategoryId();
+        if (categoryId != null) {
+            stmt.bindString(33, categoryId);
+        }
+ 
+        String categoryName = entity.getCategoryName();
+        if (categoryName != null) {
+            stmt.bindString(34, categoryName);
+        }
+ 
+        String categoryUrl = entity.getCategoryUrl();
+        if (categoryUrl != null) {
+            stmt.bindString(35, categoryUrl);
+        }
+ 
+        String urlFirst = entity.getUrlFirst();
+        if (urlFirst != null) {
+            stmt.bindString(36, urlFirst);
+        }
+ 
+        String urlInfo = entity.getUrlInfo();
+        if (urlInfo != null) {
+            stmt.bindString(37, urlInfo);
+        }
+ 
+        String urlDir = entity.getUrlDir();
+        if (urlDir != null) {
+            stmt.bindString(38, urlDir);
+        }
+ 
+        String urlDown = entity.getUrlDown();
+        if (urlDown != null) {
+            stmt.bindString(39, urlDown);
+        }
+ 
+        String urlReadEnd = entity.getUrlReadEnd();
+        if (urlReadEnd != null) {
+            stmt.bindString(40, urlReadEnd);
+        }
+ 
+        String urlChapterList = entity.getUrlChapterList();
+        if (urlChapterList != null) {
+            stmt.bindString(41, urlChapterList);
+        }
+ 
+        String urlAddMark = entity.getUrlAddMark();
+        if (urlAddMark != null) {
+            stmt.bindString(42, urlAddMark);
+        }
+ 
+        String urlVote = entity.getUrlVote();
+        if (urlVote != null) {
+            stmt.bindString(43, urlVote);
+        }
+ 
+        String urlComment = entity.getUrlComment();
+        if (urlComment != null) {
+            stmt.bindString(44, urlComment);
         }
     }
 
@@ -199,21 +374,46 @@ public class BookDao extends AbstractDao<Book, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // novelId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // coverUrl
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // description
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // lastChapterId
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // lastUpdateTime
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // readChapterId
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // readChapterName
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // readPosition
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // readPageTxt
-            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // readCount
-            cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12), // unreadCount
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // siteId
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // downloadUrl
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // localPath
-            cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16), // downloadStatus
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // author
-            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18) // category
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4), // postdate
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // description
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // isover
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // lastChapterId
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // lastChapterName
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // lastChapterSiteId
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // lastChapterUrl
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // lastUpdateTime
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // readChapterId
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // readChapterUrl
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // readChaterSiteId
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // readChapterName
+            cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16), // readPosition
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // readPageTxt
+            cursor.isNull(offset + 18) ? null : cursor.getInt(offset + 18), // readCount
+            cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19), // unreadCount
+            cursor.isNull(offset + 20) ? null : cursor.getInt(offset + 20), // allvisit
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // siteId
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // siteName
+            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23), // siteUrl
+            cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24), // siteKey
+            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // orderId
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // siteHost
+            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // downloadUrl
+            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // localPath
+            cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29), // downloadStatus
+            cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30), // author
+            cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31), // authorUrl
+            cursor.isNull(offset + 32) ? null : cursor.getString(offset + 32), // categoryId
+            cursor.isNull(offset + 33) ? null : cursor.getString(offset + 33), // categoryName
+            cursor.isNull(offset + 34) ? null : cursor.getString(offset + 34), // categoryUrl
+            cursor.isNull(offset + 35) ? null : cursor.getString(offset + 35), // urlFirst
+            cursor.isNull(offset + 36) ? null : cursor.getString(offset + 36), // urlInfo
+            cursor.isNull(offset + 37) ? null : cursor.getString(offset + 37), // urlDir
+            cursor.isNull(offset + 38) ? null : cursor.getString(offset + 38), // urlDown
+            cursor.isNull(offset + 39) ? null : cursor.getString(offset + 39), // urlReadEnd
+            cursor.isNull(offset + 40) ? null : cursor.getString(offset + 40), // urlChapterList
+            cursor.isNull(offset + 41) ? null : cursor.getString(offset + 41), // urlAddMark
+            cursor.isNull(offset + 42) ? null : cursor.getString(offset + 42), // urlVote
+            cursor.isNull(offset + 43) ? null : cursor.getString(offset + 43) // urlComment
         );
         return entity;
     }
@@ -225,21 +425,46 @@ public class BookDao extends AbstractDao<Book, Long> {
         entity.setNovelId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setCoverUrl(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setDescription(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setLastChapterId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setLastUpdateTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setReadChapterId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setReadChapterName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setReadPosition(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-        entity.setReadPageTxt(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setReadCount(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
-        entity.setUnreadCount(cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12));
-        entity.setSiteId(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setDownloadUrl(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
-        entity.setLocalPath(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setDownloadStatus(cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16));
-        entity.setAuthor(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setCategory(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setPostdate(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setDescription(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setIsover(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
+        entity.setLastChapterId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setLastChapterName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setLastChapterSiteId(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setLastChapterUrl(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setLastUpdateTime(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setReadChapterId(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setReadChapterUrl(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setReadChaterSiteId(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setReadChapterName(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setReadPosition(cursor.isNull(offset + 16) ? null : cursor.getInt(offset + 16));
+        entity.setReadPageTxt(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setReadCount(cursor.isNull(offset + 18) ? null : cursor.getInt(offset + 18));
+        entity.setUnreadCount(cursor.isNull(offset + 19) ? null : cursor.getInt(offset + 19));
+        entity.setAllvisit(cursor.isNull(offset + 20) ? null : cursor.getInt(offset + 20));
+        entity.setSiteId(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setSiteName(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setSiteUrl(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
+        entity.setSiteKey(cursor.isNull(offset + 24) ? null : cursor.getString(offset + 24));
+        entity.setOrderId(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
+        entity.setSiteHost(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setDownloadUrl(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
+        entity.setLocalPath(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setDownloadStatus(cursor.isNull(offset + 29) ? null : cursor.getInt(offset + 29));
+        entity.setAuthor(cursor.isNull(offset + 30) ? null : cursor.getString(offset + 30));
+        entity.setAuthorUrl(cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31));
+        entity.setCategoryId(cursor.isNull(offset + 32) ? null : cursor.getString(offset + 32));
+        entity.setCategoryName(cursor.isNull(offset + 33) ? null : cursor.getString(offset + 33));
+        entity.setCategoryUrl(cursor.isNull(offset + 34) ? null : cursor.getString(offset + 34));
+        entity.setUrlFirst(cursor.isNull(offset + 35) ? null : cursor.getString(offset + 35));
+        entity.setUrlInfo(cursor.isNull(offset + 36) ? null : cursor.getString(offset + 36));
+        entity.setUrlDir(cursor.isNull(offset + 37) ? null : cursor.getString(offset + 37));
+        entity.setUrlDown(cursor.isNull(offset + 38) ? null : cursor.getString(offset + 38));
+        entity.setUrlReadEnd(cursor.isNull(offset + 39) ? null : cursor.getString(offset + 39));
+        entity.setUrlChapterList(cursor.isNull(offset + 40) ? null : cursor.getString(offset + 40));
+        entity.setUrlAddMark(cursor.isNull(offset + 41) ? null : cursor.getString(offset + 41));
+        entity.setUrlVote(cursor.isNull(offset + 42) ? null : cursor.getString(offset + 42));
+        entity.setUrlComment(cursor.isNull(offset + 43) ? null : cursor.getString(offset + 43));
      }
     
     /** @inheritdoc */

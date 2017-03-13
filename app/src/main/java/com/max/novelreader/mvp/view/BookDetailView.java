@@ -20,4 +20,5 @@ public interface BookDetailView {
     void showCatalogProgress();
     void hideCatalogProgress();
     void showSameRecommand(List<RecommandSameBean.DataBean> list);
+    void showBookInShelfBtn(boolean isInShelf);
 }

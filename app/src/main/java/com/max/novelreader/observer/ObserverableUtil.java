@@ -1,12 +1,18 @@
 package com.max.novelreader.observer;
 
+import com.max.novelreader.bean.AuthorBean;
 import com.max.novelreader.bean.Book;
 import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.Category;
+import com.max.novelreader.bean.DataBean;
+import com.max.novelreader.bean.NovelBean;
+import com.max.novelreader.bean.NovelLastBean;
 import com.max.novelreader.bean.NovelLoadResponse;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.bean.NovelMainResponse;
+import com.max.novelreader.bean.NovelUrlBean;
 import com.max.novelreader.bean.RecommandSameBean;
+import com.max.novelreader.bean.SourceBean;
 import com.max.novelreader.db.DaoManager;
 import com.max.novelreader.http.HttpRequest;
 
@@ -17,6 +23,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -42,6 +49,111 @@ public class ObserverableUtil {
                     public void call(List<Book> books) {
                         if(callback != null) {
                             callback.callback(books);
+                        }
+                    }
+                });
+    }
+
+    public static void addBookToShelf(NovelMainBean bean, final DaoManager daoManager, final Callback<Book> callback) {
+        Observable.just(bean)
+                .flatMap(new Func1<NovelMainBean, Observable<Book>>() {
+                    @Override
+                    public Observable<Book> call(NovelMainBean bean) {
+                        Book book = new Book();
+                        NovelBean novelBean = bean.getNovel();
+                        book.setNovelId(novelBean.getId());
+                        book.setCoverUrl(novelBean.getCover());
+                        book.setDescription(novelBean.getIntro());
+                        book.setName(novelBean.getName());
+                        book.setIsover(novelBean.isOver() ? 1 : 0);
+                        book.setPostdate(Long.parseLong(novelBean.getPostdate()));
+                        AuthorBean authorBean = bean.getAuthor();
+                        book.setAuthor(authorBean.getName());
+                        book.setAuthorUrl(authorBean.getUrl());
+                        DataBean dataBean = bean.getData();
+                        book.setAllvisit(Integer.parseInt(dataBean.getAllvisit()));
+                        SourceBean sourceBean = bean.getSource();
+                        book.setSiteHost(sourceBean.getSiteid());
+                        book.setSiteHost(sourceBean.getSitehost());
+                        book.setSiteKey(sourceBean.getSitekey());
+                        book.setSiteName(sourceBean.getSitename());
+                        book.setSiteUrl(sourceBean.getSiteurl());
+                        NovelLastBean lastBean = bean.getLast();
+                        book.setLastChapterId(lastBean.getId());
+                        book.setLastChapterName(lastBean.getName());
+                        book.setLastChapterSiteId(lastBean.getSiteid());
+                        book.setLastChapterUrl(lastBean.getUrl());
+                        book.setLastUpdateTime(lastBean.getTime());
+                        Category category = bean.getCategory();
+                        book.setCategoryId(category.getId());
+                        book.setCategoryName(category.getName());
+                        book.setCategoryUrl(category.getUrl());
+                        NovelUrlBean urlBean = bean.getUrl();
+                        book.setUrlAddMark(urlBean.getAddmark());
+                        book.setUrlChapterList(urlBean.getChapterlist());
+                        book.setUrlComment(urlBean.getComment());
+                        book.setUrlDir(urlBean.getDir());
+                        book.setUrlDown(urlBean.getDown());
+                        book.setUrlFirst(urlBean.getFirst());
+                        book.setUrlInfo(urlBean.getInfo());
+                        book.setUrlReadEnd(urlBean.getReadend());
+                        book.setUrlVote(urlBean.getVote());
+                        return Observable.just(book);
+                    }
+                }).observeOn(Schedulers.io())
+                .map(new Func1<Book, Book>() {
+                    @Override
+                    public Book call(Book book) {
+                        daoManager.saveBook(book);
+                        return book;
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Book>() {
+                    @Override
+                    public void call(Book book) {
+                        if(callback != null) {
+                            callback.callback(book);
+                        }
+                    }
+                });
+    }
+
+    public static void deleteBookFromShelf(long id, final DaoManager daoManager) {
+        Observable.just(id)
+                .map(new Func1<Long, Boolean>() {
+                    @Override
+                    public Boolean call(Long id) {
+                        daoManager.deleteBook(id);
+                        return true;
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+
+                    }
+                });
+    }
+
+    public static void getBook(String novelId, final DaoManager daoManager, final Callback<Book> callback) {
+        Observable.just(novelId)
+                .map(new Func1<String, Book>() {
+                    @Override
+                    public Book call(String novelId) {
+                        return daoManager.getBook(novelId);
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Book>() {
+                    @Override
+                    public void call(Book book) {
+                        if(callback != null) {
+                            callback.callback(book);
                         }
                     }
                 });
