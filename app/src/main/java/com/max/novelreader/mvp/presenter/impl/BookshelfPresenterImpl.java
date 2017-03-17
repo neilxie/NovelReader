@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import com.max.novelreader.R;
 import com.max.novelreader.bean.Book;
 import com.max.novelreader.db.DaoManager;
+import com.max.novelreader.event.BookShelfUpdateEvent;
 import com.max.novelreader.event.DelBsEvent;
 import com.max.novelreader.mvp.presenter.BookshelfPresenter;
 import com.max.novelreader.mvp.view.BookshelfFragmentView;
@@ -166,9 +167,35 @@ public class BookshelfPresenterImpl implements BookshelfPresenter {
     public void onDeleteSelectedBookEvent(DelBsEvent event) {
         if(bookList != null && !bookList.isEmpty()
                 && selectedBooks != null && !selectedBooks.isEmpty()) {
+            for(Book book : selectedBooks) {
+                ObserverableUtil.deleteBookFromShelf(book.getId(), daoManager, null);
+            }
+
             bookList.removeAll(selectedBooks);
             selectedBooks.clear();
             bookshelfFragmentView.refreshSelectView(0);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBookShelfUpdateEvent(BookShelfUpdateEvent event) {
+        int opration = event.getOpration();
+        if(opration == BookShelfUpdateEvent.OPRATION_ADD) {
+            if(bookList == null) {
+                bookList = new ArrayList<>();
+            }
+            bookList.add(event.getBook());
+            bookshelfFragmentView.refreshBookShelf(bookList);
+        } else if(opration == BookShelfUpdateEvent.OPRATION_DEL) {
+            if(bookList == null) {
+                return;
+            }
+
+            bookList.remove(event.getBook());
+            bookshelfFragmentView.refreshBookShelf(bookList);
+            if(bookList.isEmpty()) {
+                bookshelfFragmentView.showBookShelfEmpty();
+            }
         }
     }
 }

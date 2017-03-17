@@ -100,7 +100,7 @@ public class ObserverableUtil {
                         book.setUrlVote(urlBean.getVote());
                         return Observable.just(book);
                     }
-                }).observeOn(Schedulers.io())
+                }).observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Book, Book>() {
                     @Override
                     public Book call(Book book) {
@@ -108,8 +108,8 @@ public class ObserverableUtil {
                         return book;
                     }
                 })
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Action1<Book>() {
                     @Override
                     public void call(Book book) {
@@ -120,7 +120,7 @@ public class ObserverableUtil {
                 });
     }
 
-    public static void deleteBookFromShelf(long id, final DaoManager daoManager) {
+    public static void deleteBookFromShelf(long id, final DaoManager daoManager, final Callback<Boolean> callback) {
         Observable.just(id)
                 .map(new Func1<Long, Boolean>() {
                     @Override
@@ -129,12 +129,14 @@ public class ObserverableUtil {
                         return true;
                     }
                 })
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
                     @Override
-                    public void call(Boolean aBoolean) {
-
+                    public void call(Boolean result) {
+                        if(callback != null) {
+                            callback.callback(result);
+                        }
                     }
                 });
     }
@@ -147,8 +149,8 @@ public class ObserverableUtil {
                         return daoManager.getBook(novelId);
                     }
                 })
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Action1<Book>() {
                     @Override
                     public void call(Book book) {

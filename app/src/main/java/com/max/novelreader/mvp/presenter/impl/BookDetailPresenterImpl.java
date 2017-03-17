@@ -11,11 +11,14 @@ import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.bean.RecommandSameBean;
 import com.max.novelreader.bean.SourceBean;
 import com.max.novelreader.db.DaoManager;
+import com.max.novelreader.event.BookShelfUpdateEvent;
 import com.max.novelreader.mvp.presenter.BookDetailPresenter;
 import com.max.novelreader.mvp.view.BookDetailView;
 import com.max.novelreader.observer.Callback;
 import com.max.novelreader.observer.ObserverableUtil;
 import com.max.novelreader.ui.BookDetailActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -125,7 +128,14 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
     @Override
     public void onClickShelf() {
         if(isBookInShelf) {
-            ObserverableUtil.deleteBookFromShelf(shelfBook.getId(), daoManager);
+            ObserverableUtil.deleteBookFromShelf(shelfBook.getId(), daoManager, new Callback<Boolean>() {
+                @Override
+                public void callback(Boolean result) {
+                    isBookInShelf = !result;
+                    bookDetailView.showBookInShelfBtn(isBookInShelf);
+                    EventBus.getDefault().post(new BookShelfUpdateEvent(shelfBook, BookShelfUpdateEvent.OPRATION_DEL));
+                }
+            });
         } else {
             ObserverableUtil.addBookToShelf(novelMainBean, daoManager, new Callback<Book>() {
                 @Override
@@ -133,6 +143,7 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
                     isBookInShelf = true;
                     shelfBook = book;
                     bookDetailView.showBookInShelfBtn(isBookInShelf);
+                    EventBus.getDefault().post(new BookShelfUpdateEvent(shelfBook, BookShelfUpdateEvent.OPRATION_ADD));
                 }
             });
         }
