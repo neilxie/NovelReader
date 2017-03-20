@@ -177,6 +177,7 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
             @Override
             public void callback(Catalog catalog) {
                 if(catalog != null) {
+                    novelMainBean.setCatalog(catalog);
                     bookDetailView.hideCatalogProgress();
                     bookDetailView.showCatalog(novelMainBean.getLast(), catalog);
                 }

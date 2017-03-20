@@ -4,6 +4,7 @@ import com.max.novelreader.bean.AuthorBean;
 import com.max.novelreader.bean.Book;
 import com.max.novelreader.bean.Catalog;
 import com.max.novelreader.bean.Category;
+import com.max.novelreader.bean.Chapter;
 import com.max.novelreader.bean.DataBean;
 import com.max.novelreader.bean.NovelBean;
 import com.max.novelreader.bean.NovelLastBean;
@@ -98,6 +99,16 @@ public class ObserverableUtil {
                         book.setUrlInfo(urlBean.getInfo());
                         book.setUrlReadEnd(urlBean.getReadend());
                         book.setUrlVote(urlBean.getVote());
+                        Catalog catalog = bean.getCatalog();
+                        if(catalog != null) {
+                            Chapter chapter = catalog.getData().get(0);
+                            book.setReadChapterId(chapter.getId());
+                            book.setReadChapterName(chapter.getName());
+                            book.setReadChapterUrl(chapter.getUrl());
+                            book.setReadChaterSiteId(chapter.getSiteid());
+                            book.setReadCount(0);
+                            book.setReadPosition(0);
+                        }
                         return Observable.just(book);
                     }
                 }).observeOn(AndroidSchedulers.mainThread())

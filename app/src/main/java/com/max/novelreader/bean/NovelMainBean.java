@@ -1,5 +1,7 @@
 package com.max.novelreader.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -19,13 +21,21 @@ public class NovelMainBean implements Serializable {
      * url : {"first":"/novel/tianyucangqiong/read_1.html","info":"/novel/tianyucangqiong/","dir":"/dir/tianyucangqiong/","down":"/novelsearch/novel/down.html?novelid=7312&novelkey=tianyucangqiong","readend":"/novel/tianyucangqiong/readend.html","chapterlist":"/novel/chapterlist/tianyucangqiong.html","addmark":"/user/mark/add.html?novelid=7312","vote":"/user/vote/add.html?novelid=7312","comment":"/novel/tianyucangqiong/comment/1.html"}
      */
 
+    @SerializedName("novel")
     private NovelBean novel;
+    @SerializedName("author")
     private AuthorBean author;
+    @SerializedName("category")
     private Category category;
+    @SerializedName("last")
     private NovelLastBean last;
+    @SerializedName("data")
     private DataBean data;
+    @SerializedName("source")
     private SourceBean source;
+    @SerializedName("url")
     private NovelUrlBean url;
+    private Catalog catalog;
 
     public NovelMainBean(){}
 
@@ -86,5 +96,11 @@ public class NovelMainBean implements Serializable {
     }
 
 
+    public Catalog getCatalog() {
+        return catalog;
+    }
 
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,7 +101,9 @@ public class BookshelfAdapter extends RecyclerView.Adapter<BookshelfAdapter.Book
             tvBookTitle.setText(book.getName());
             tvBookAuthor.setText(Html.fromHtml(context.getString(R.string.bookshelf_author, book.getAuthor())));
             String readChapter = book.getReadChapterName();
-            tvHistory.setText(context.getString(R.string.book_read_history, readChapter));
+            if(!TextUtils.isEmpty(readChapter)) {
+                tvHistory.setText(context.getString(R.string.book_read_history, readChapter));
+            }
             ivSelect.setVisibility(isEditMode ? View.VISIBLE : View.GONE);
             setSelectIconColor();
             Glide.with(context).load(book.getCoverUrl()).centerCrop().into(ivBookConver);
