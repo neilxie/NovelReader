@@ -16,14 +16,16 @@ public class CatalogModel {
 
     String novelId;
     String siteId;
+    int curChapterOId;
 
-    public CatalogModel(String novelId, String siteId) {
+    public CatalogModel(String novelId, String siteId, int curChapter) {
         this.novelId = novelId;
         this.siteId = siteId;
+        curChapterOId = curChapter;
     }
 
     @Provides
     public CatalogPresenter provideCatalogPresenter() {
-        return new CatalogPresenterImpl(novelId, siteId);
+        return new CatalogPresenterImpl(novelId, siteId, curChapterOId);
     }
 }

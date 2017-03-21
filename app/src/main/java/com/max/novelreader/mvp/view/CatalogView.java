@@ -1,6 +1,8 @@
 package com.max.novelreader.mvp.view;
 
-import com.max.novelreader.bean.Catalog;
+import com.max.novelreader.bean.Chapter;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/20.
@@ -9,5 +11,5 @@ import com.max.novelreader.bean.Catalog;
 public interface CatalogView {
 
     void hideProgress();
-    void showCatalog(Catalog catalog);
+    void showCatalog(List<Chapter> chapterList, int curPos);
 }

@@ -1,6 +1,9 @@
 package com.max.novelreader.mvp.presenter.impl;
 
+import android.content.Context;
+
 import com.max.novelreader.bean.Catalog;
+import com.max.novelreader.bean.Chapter;
 import com.max.novelreader.mvp.presenter.CatalogPresenter;
 import com.max.novelreader.mvp.view.CatalogView;
 import com.max.novelreader.observer.Callback;
@@ -19,10 +22,12 @@ public class CatalogPresenterImpl implements CatalogPresenter {
     String novelId;
     String siteId;
     Catalog mCatalog;
+    int curChapterId;
 
-    public CatalogPresenterImpl(String novelId, String siteId) {
+    public CatalogPresenterImpl(String novelId, String siteId, int curChapter) {
         this.novelId = novelId;
         this.siteId = siteId;
+        curChapterId = curChapter;
     }
 
     @Override
@@ -35,6 +40,11 @@ public class CatalogPresenterImpl implements CatalogPresenter {
         loadCatalog();
     }
 
+    @Override
+    public void onChapterClick(Context context, Chapter chapter, int position) {
+
+    }
+
     private void loadCatalog() {
         Map<String, String> params = new HashMap<>();
         params.put("novelid", novelId);
@@ -45,7 +55,7 @@ public class CatalogPresenterImpl implements CatalogPresenter {
                 mCatalog = catalog;
                 if(catalog != null) {
                     catalogView.hideProgress();
-                    catalogView.showCatalog(catalog);
+                    catalogView.showCatalog(catalog.getData(), curChapterId - 1);
                 }
             }
         });

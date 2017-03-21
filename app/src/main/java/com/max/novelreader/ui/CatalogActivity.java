@@ -12,16 +12,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.max.novelreader.R;
-import com.max.novelreader.bean.Catalog;
+import com.max.novelreader.adapter.CatalogAdapter;
+import com.max.novelreader.bean.Chapter;
 import com.max.novelreader.di.components.CatalogComponent;
 import com.max.novelreader.di.components.DaggerCatalogComponent;
 import com.max.novelreader.di.modules.CatalogModel;
 import com.max.novelreader.mvp.presenter.CatalogPresenter;
 import com.max.novelreader.mvp.view.CatalogView;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -33,9 +37,12 @@ public class CatalogActivity extends BaseActivity implements CatalogView {
     private static final String EXTRA_TITLE = "title";
     private static final String EXTRA_NOVEL_ID = "novelId";
     private static final String EXRRA_SITE_ID = "siteId";
+    private static final String EXTRA_CUR_CHAPTER = "curChapter";
 
     CatalogComponent component;
     String title;
+    int curChapterOID;
+
     @Inject
     CatalogPresenter presenter;
 
@@ -47,12 +54,14 @@ public class CatalogActivity extends BaseActivity implements CatalogView {
     ProgressBar progressBar;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    CatalogAdapter catalogAdapter;
 
-    public static void showCatalogList(Context context, String novelId, String siteId, String title) {
+    public static void showCatalogList(Context context, String novelId, String siteId, String title, int orderId) {
         Intent intent = new Intent(context, CatalogActivity.class);
         intent.putExtra(EXTRA_TITLE, title);
         intent.putExtra(EXTRA_NOVEL_ID, novelId);
         intent.putExtra(EXRRA_SITE_ID, siteId);
+        intent.putExtra(EXTRA_CUR_CHAPTER, orderId);
         context.startActivity(intent);
     }
 
@@ -62,14 +71,18 @@ public class CatalogActivity extends BaseActivity implements CatalogView {
         setContentView(R.layout.activity_catalog);
         Intent intent = getIntent();
         title = intent.getStringExtra(EXTRA_TITLE);
+        curChapterOID = intent.getIntExtra(EXTRA_CUR_CHAPTER, 1);
         String novelId = intent.getStringExtra(EXTRA_NOVEL_ID);
         String siteId = intent.getStringExtra(EXRRA_SITE_ID);
 
+        ButterKnife.bind(this);
+
         initViews();
 
-        component = DaggerCatalogComponent.builder().appComponent(getAppComponent()).catalogModel(new CatalogModel(novelId, siteId)).build();
+        component = DaggerCatalogComponent.builder().appComponent(getAppComponent()).catalogModel(new CatalogModel(novelId, siteId, curChapterOID)).build();
         component.inject(this);
 
+        presenter.attach(this);
         presenter.onCreate();
     }
 
@@ -102,7 +115,11 @@ public class CatalogActivity extends BaseActivity implements CatalogView {
     }
 
     @Override
-    public void showCatalog(Catalog catalog) {
-
+    public void showCatalog(List<Chapter> chapterList, int curPos) {
+        if(catalogAdapter == null) {
+            catalogAdapter = new CatalogAdapter(this, chapterList, curChapterOID, presenter);
+            recyclerView.setAdapter(catalogAdapter);
+            recyclerView.scrollToPosition(curPos);
+        }
     }
 }

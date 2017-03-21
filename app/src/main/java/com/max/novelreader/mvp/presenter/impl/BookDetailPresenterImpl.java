@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.max.novelreader.bean.Book;
 import com.max.novelreader.bean.Catalog;
+import com.max.novelreader.bean.Chapter;
 import com.max.novelreader.bean.NovelBean;
 import com.max.novelreader.bean.NovelMainBean;
 import com.max.novelreader.bean.RecommandSameBean;
@@ -17,6 +18,7 @@ import com.max.novelreader.mvp.view.BookDetailView;
 import com.max.novelreader.observer.Callback;
 import com.max.novelreader.observer.ObserverableUtil;
 import com.max.novelreader.ui.BookDetailActivity;
+import com.max.novelreader.ui.CatalogActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -75,7 +77,13 @@ public class BookDetailPresenterImpl implements BookDetailPresenter {
 
     @Override
     public void onClickCatalogMore(Context context) {
+        int oid = 1;
+        if(novelMainBean.getCatalog() != null) {
+            Chapter c = novelMainBean.getCatalog().getData().get(0);
+            oid = c.getOid();
+        }
 
+        CatalogActivity.showCatalogList(context, novelMainBean.getNovel().getId(), novelMainBean.getSource().getSiteid(), novelMainBean.getNovel().getName(), oid);
     }
 
     @Override
